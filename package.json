@@ -16,7 +16,12 @@
     "src/**/*.{js,jsx,css}": "prettier --write --ignore-unknown"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/inter": "^5.0.16",
+    "@mui/joy": "^5.0.0-beta.28",
     "@tanstack/react-query": "^5.21.7",
+    "axios": "^1.6.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.1",
