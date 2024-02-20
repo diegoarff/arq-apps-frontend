@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, Typography } from '@mui/joy';
-import RegisterForm from '../components/RegisterForm';
+import RegisterForm from '../components/forms/RegisterForm';
 import { Link } from 'react-router-dom';
 
 const RegisterPage = () => {
@@ -20,7 +20,7 @@ const RegisterPage = () => {
 							marginBottom: 2,
 						}}
 					>
-						Regístrate para usar nuestra aplicación{' '}
+						Regístrate para usar nuestra aplicación
 					</Typography>
 					<CardContent
 						sx={{

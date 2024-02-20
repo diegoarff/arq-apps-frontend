@@ -1,6 +1,6 @@
 import { Box, Card, CardContent, Typography } from '@mui/joy';
 import { Link } from 'react-router-dom';
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../components/forms/LoginForm';
 
 const LoginPage = () => {
 	return (
@@ -20,7 +20,7 @@ const LoginPage = () => {
 							marginBottom: 2,
 						}}
 					>
-						Inicia sesión para usar nuestra aplicación{' '}
+						Inicia sesión para usar nuestra aplicación
 					</Typography>
 					<CardContent
 						sx={{
