@@ -1,9 +1,20 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Navbar from '../navbar/Navbar';
 import Sidebar from './Sidebar';
 import { Grid, Stack } from '@mui/joy';
+import { useAuthStore } from '../../store/useAuthStore';
+import { useEffect } from 'react';
 
 const RootLayout = () => {
+	const user = useAuthStore((state) => state.user);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (!user) {
+			navigate('/auth/login', { replace: true });
+		}
+	}, [navigate, user]);
+
 	return (
 		<Stack sx={{ height: '100vh' }}>
 			<Navbar />
