@@ -13,6 +13,14 @@ const RegisterPage = () => {
 		>
 			<Card variant="outlined">
 				<Box p={2}>
+				<img
+						src="../../public/Logo.png"
+						alt="CodeCampus"
+						sx={{
+							width: 100, 
+							marginBottom: 2, 
+						}}
+					/>
 					<Typography level="title-lg">Registro</Typography>
 					<Typography
 						level="body-md"
