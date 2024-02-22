@@ -1,4 +1,4 @@
-import { Button, Stack } from '@mui/joy';
+import { Box, Button, Stack } from '@mui/joy';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Searchbar from './Searchbar';
 import UserProfile from './UserProfile';
@@ -9,49 +9,29 @@ const Navbar = () => {
 	const onLogout = useAuthStore((state) => state.onLogout);
 
 	return (
-		<>
-			<Stack
-				direction="row"
-				spacing={2}
-				sx={{
-					height: 60,
-					backgroundColor: '#999999',
-				}}
-			>
-				<Stack
-					spacing={2}
-					sx={{
-						width: '100%',
-						justifyContent: 'center',
-						alignItems: 'center',
-					}}
-				>
-					<Searchbar />
-				</Stack>
+		<Stack
+			direction="row"
+			justifyContent={'center'}
+			alignItems={'center'}
+			spacing={2}
+			sx={{
+				backgroundColor: 'background.level1',
+				borderBottom: '1px solid',
+				borderColor: 'divider',
+				position: 'relative',
+				minHeight: 64,
+			}}
+		>
+			<Searchbar />
 
-				<Stack
-					direction="row"
-					spacing={2}
-					justifyContent="flex-end"
-					alignItems="center"
-					sx={{ flex: 1, paddingRight: 3 }}
-				>
-					<UserProfile />
-
-					<ThemeToggle />
-
-					<Button
-						variant="solid"
-						color="danger"
-						size="md"
-						startDecorator={<LogoutIcon />}
-						onClick={onLogout}
-					>
-						Salir
-					</Button>
-				</Stack>
-			</Stack>
-		</>
+			<Box sx={{ display: 'flex', position: 'absolute', right: 20, gap: 2 }}>
+				<UserProfile />
+				<ThemeToggle />
+				<Button variant="soft" color="danger" size="md" onClick={onLogout}>
+					<LogoutIcon />
+				</Button>
+			</Box>
+		</Stack>
 	);
 };
 

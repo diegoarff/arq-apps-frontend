@@ -16,7 +16,7 @@ const RootLayout = () => {
 	}, [user, token, navigate]);
 
 	return (
-		<Stack sx={{ height: '100vh' }}>
+		<Stack sx={{ height: '100dvh' }}>
 			<Navbar />
 			<Grid container sx={{ height: '100%' }}>
 				<Grid xs={2} sx={{ height: '100%' }}>

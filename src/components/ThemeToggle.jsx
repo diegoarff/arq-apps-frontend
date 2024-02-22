@@ -7,9 +7,15 @@ const ThemeToggle = () => {
 
 	return (
 		<Button
-			variant="soft"
+			variant="outlined"
+			color="neutral"
 			size="md"
 			onClick={() => setMode(mode === 'dark' ? 'light' : 'dark')}
+			sx={{
+				'&:hover': {
+					backgroundColor: 'background.level2',
+				},
+			}}
 		>
 			{mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
 		</Button>

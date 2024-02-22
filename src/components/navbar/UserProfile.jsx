@@ -12,17 +12,20 @@ const UserProfile = () => {
 	}
 
 	return (
-		<>
-			<Button
-				variant="soft"
-				color="primary"
-				size="md"
-				startDecorator={<PersonIcon />}
-				onClick={() => navigate('/')}
-			>
-				{user.username}
-			</Button>
-		</>
+		<Button
+			variant="outlined"
+			color="neutral"
+			size="md"
+			startDecorator={<PersonIcon />}
+			onClick={() => navigate('/')}
+			sx={{
+				'&:hover': {
+					backgroundColor: 'background.level2',
+				},
+			}}
+		>
+			{user.username}
+		</Button>
 	);
 };
 
