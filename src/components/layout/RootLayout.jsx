@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import Navbar from '../navbar/Navbar';
 import Sidebar from './Sidebar';
-import { Grid, Stack } from '@mui/joy';
+import { Box, Stack } from '@mui/joy';
 import { useAuthStore } from '../../store/useAuthStore';
 import { useEffect } from 'react';
 
@@ -16,17 +16,30 @@ const RootLayout = () => {
 	}, [user, token, navigate]);
 
 	return (
-		<Stack sx={{ height: '100dvh' }}>
+		<Stack sx={{ height: '100dvh', backgroundColor: 'background.surface' }}>
 			<Navbar />
-			<Grid container sx={{ height: '100%' }}>
-				<Grid xs={2} sx={{ height: '100%' }}>
-					<Sidebar />
-				</Grid>
-				<Grid xs={10} sx={{ height: '100%' }}>
-					{/* Aquí se renderiza el contenido de children */}
+			<Stack direction="row" flex={1}>
+				<Sidebar />
+				<Box
+					sx={{
+						height: 'calc(100vh - 64px)',
+						px: 8,
+						py: 4,
+						flex: 1,
+						overflowY: 'scroll',
+						'&::-webkit-scrollbar': {
+							width: 6,
+						},
+
+						'&::-webkit-scrollbar-thumb': {
+							backgroundColor: 'background.level2',
+							borderRadius: 8,
+						},
+					}}
+				>
 					<Outlet />
-				</Grid>
-			</Grid>
+				</Box>
+			</Stack>
 		</Stack>
 	);
 };
