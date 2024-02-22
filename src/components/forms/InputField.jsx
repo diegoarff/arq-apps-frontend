@@ -22,13 +22,7 @@ const InputField = ({
 
 	return (
 		<FormControl error={!!error}>
-			<FormLabel
-				sx={{
-					fontWeight: 'bold',
-				}}
-			>
-				{label}
-			</FormLabel>
+			<FormLabel>{label}</FormLabel>
 			<Input
 				placeholder={placeholder}
 				type={type}
@@ -36,7 +30,7 @@ const InputField = ({
 				onChange={onChange}
 				onBlur={onBlur}
 			/>
-			{error && <FormHelperText>{error.message}</FormHelperText>}
+			<FormHelperText>{error ? error.message : ''}</FormHelperText>
 		</FormControl>
 	);
 };

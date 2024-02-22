@@ -8,7 +8,7 @@ const AuthLayout = () => {
 
 	useEffect(() => {
 		if (user) {
-			navigate('/home', { replace: true });
+			return navigate('/', { replace: true });
 		}
 	}, [navigate, user]);
 

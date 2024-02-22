@@ -6,14 +6,14 @@ import { useAuthStore } from '../../store/useAuthStore';
 import { useEffect } from 'react';
 
 const RootLayout = () => {
-	const user = useAuthStore((state) => state.user);
+	const { user, token } = useAuthStore();
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (!user) {
-			navigate('/auth/login', { replace: true });
+		if (!user || !token) {
+			return navigate('/auth/login', { replace: true });
 		}
-	}, [navigate, user]);
+	}, [user, token, navigate]);
 
 	return (
 		<Stack sx={{ height: '100vh' }}>

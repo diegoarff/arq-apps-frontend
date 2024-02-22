@@ -12,7 +12,7 @@ const RegisterForm = () => {
 
 	const submitHandler = async (data) => {
 		await onRegister(data.username, data.password);
-		navigate('/login');
+		navigate('/auth/login', { replace: true });
 	};
 
 	return (

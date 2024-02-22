@@ -1,7 +1,16 @@
 import { Button } from '@mui/joy';
 import PersonIcon from '@mui/icons-material/Person';
+import { useAuthStore } from '../../store/useAuthStore';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
+	const user = useAuthStore((state) => state.user);
+	const navigate = useNavigate();
+
+	if (!user) {
+		return null;
+	}
+
 	return (
 		<>
 			<Button
@@ -9,8 +18,9 @@ const UserProfile = () => {
 				color="primary"
 				size="md"
 				startDecorator={<PersonIcon />}
+				onClick={() => navigate('/')}
 			>
-				cesar
+				{user.username}
 			</Button>
 		</>
 	);

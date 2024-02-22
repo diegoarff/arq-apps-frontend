@@ -1,12 +1,12 @@
-import { Button, Stack, useColorScheme } from '@mui/joy';
+import { Button, Stack } from '@mui/joy';
 import LogoutIcon from '@mui/icons-material/Logout';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
 import Searchbar from './Searchbar';
 import UserProfile from './UserProfile';
+import { useAuthStore } from '../../store/useAuthStore';
+import ThemeToggle from '../ThemeToggle';
 
 const Navbar = () => {
-	const { mode, setMode } = useColorScheme();
+	const onLogout = useAuthStore((state) => state.onLogout);
 
 	return (
 		<>
@@ -38,19 +38,14 @@ const Navbar = () => {
 				>
 					<UserProfile />
 
-					<Button
-						variant="soft"
-						size="md"
-						onClick={() => setMode(mode === 'dark' ? 'light' : 'dark')}
-					>
-						{mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
-					</Button>
+					<ThemeToggle />
 
 					<Button
 						variant="solid"
 						color="danger"
 						size="md"
 						startDecorator={<LogoutIcon />}
+						onClick={onLogout}
 					>
 						Salir
 					</Button>

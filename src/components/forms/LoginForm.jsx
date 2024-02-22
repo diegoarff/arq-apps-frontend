@@ -11,7 +11,7 @@ const LoginForm = () => {
 
 	const submitHandler = async (data) => {
 		await onLogin(data.username, data.password);
-		navigate('/');
+		navigate('/', { replace: true });
 	};
 
 	return (
