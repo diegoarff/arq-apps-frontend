@@ -1,7 +1,6 @@
 import { Typography, Stack } from '@mui/joy';
 import { useSubject } from '../../hooks/queries/useSubject';
 import { NavLink } from 'react-router-dom';
-import { useTheme } from '@mui/joy/styles';
 
 const Sidebar = () => {
 	const { data, error, status } = useSubject();
@@ -42,7 +41,7 @@ const Sidebar = () => {
 						fontWeight="lg"
 						sx={{ color: 'text.terciary' }}
 					>
-						{term} TRIMESTRE
+						TRIMESTRE {term}
 					</Typography>
 
 					<Stack gap={0.5}>
@@ -67,15 +66,11 @@ const Sidebar = () => {
 };
 
 const SidebarItem = ({ isActive, subject }) => {
-	const theme = useTheme();
-
 	return (
 		<Typography
 			level="body-md"
 			sx={{
-				color: isActive
-					? `${theme.vars.palette.primary[500]}`
-					: `text.secondary`,
+				color: isActive ? `primary.500` : `text.secondary`,
 				px: 2,
 				py: 1,
 				borderRadius: 8,

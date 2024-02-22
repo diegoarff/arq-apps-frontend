@@ -19,7 +19,9 @@ const RootLayout = () => {
 		<Stack sx={{ height: '100dvh', backgroundColor: 'background.surface' }}>
 			<Navbar />
 			<Stack direction="row" flex={1}>
-				<Sidebar />
+				<Box sx={{ maxWidth: 350 }}>
+					<Sidebar />
+				</Box>
 				<Box
 					sx={{
 						height: 'calc(100vh - 64px)',
@@ -27,6 +29,7 @@ const RootLayout = () => {
 						py: 4,
 						flex: 1,
 						overflowY: 'scroll',
+
 						'&::-webkit-scrollbar': {
 							width: 6,
 						},
