@@ -5,7 +5,7 @@ export const getSubjects = async () => {
 		const response = await api.get('/subject');
 		return response.data.data;
 	} catch (error) {
-		return error.response.data;
+		throw new Error(`Error fetching subjects: ${error.response.data.message}`);
 	}
 };
 
@@ -14,6 +14,6 @@ export const getSubject = async (id) => {
 		const response = await api.get(`/subject/${id}`);
 		return response.data.data;
 	} catch (error) {
-		return error.response.data;
+		throw new Error(`Error fetching subject: ${error.response.data.message}`);
 	}
 };

@@ -7,10 +7,6 @@ const UserProfile = () => {
 	const user = useAuthStore((state) => state.user);
 	const navigate = useNavigate();
 
-	if (!user) {
-		return null;
-	}
-
 	return (
 		<Button
 			variant="outlined"
@@ -24,7 +20,7 @@ const UserProfile = () => {
 				},
 			}}
 		>
-			{user.username}
+			{user && user.username}
 		</Button>
 	);
 };
