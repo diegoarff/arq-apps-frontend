@@ -19,9 +19,7 @@ const RootLayout = () => {
 		<Stack sx={{ height: '100dvh', backgroundColor: 'background.surface' }}>
 			<Navbar />
 			<Stack direction="row" flex={1}>
-				<Box sx={{ maxWidth: 350 }}>
-					<Sidebar />
-				</Box>
+				<Sidebar />
 				<Box
 					sx={{
 						height: 'calc(100vh - 64px)',

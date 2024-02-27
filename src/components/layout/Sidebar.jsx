@@ -3,16 +3,6 @@ import { useSubject } from '../../hooks/queries/useSubject';
 import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
-	const { data, error, status } = useSubject();
-
-	if (status === 'pending') {
-		return <p>Loading...</p>;
-	}
-
-	if (status === 'error') {
-		return <p>Error: {error.message}</p>;
-	}
-
 	return (
 		<Stack
 			gap={2}
@@ -23,6 +13,7 @@ const Sidebar = () => {
 				borderColor: 'divider',
 				height: 'calc(100vh - 64px)',
 				overflowY: 'auto',
+				width: 350,
 
 				'&::-webkit-scrollbar': {
 					width: 6,
@@ -34,6 +25,24 @@ const Sidebar = () => {
 				},
 			}}
 		>
+			<SidebarData />
+		</Stack>
+	);
+};
+
+const SidebarData = () => {
+	const { data, error, status } = useSubject();
+
+	if (status === 'pending') {
+		return <Typography>Loading...</Typography>;
+	}
+
+	if (status === 'error') {
+		return <Typography>{error.message}</Typography>;
+	}
+
+	return (
+		<>
 			{data.map(({ term, subjects }) => (
 				<Stack direction="column" key={term} gap={1}>
 					<Typography
@@ -61,7 +70,7 @@ const Sidebar = () => {
 					</Stack>
 				</Stack>
 			))}
-		</Stack>
+		</>
 	);
 };
 
