@@ -12,12 +12,13 @@ export const login = async (username, password) => {
 	}
 };
 
-export const register = async (username, password) => {
+export const register = async (username, password, university) => {
 	try {
 		const response = await api.post('/auth/register', {
 			username,
 			password,
-			role: '65d29ef35022ee5f94506867',
+			role: '65e7c9debf7f0ca95edb4b16',
+			university,
 		});
 		return response.data;
 	} catch (error) {

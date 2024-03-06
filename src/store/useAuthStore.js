@@ -11,8 +11,8 @@ export const useAuthStore = create(
 				const { user, token } = await login(username, password);
 				set({ user, token });
 			},
-			onRegister: async (username, password) => {
-				await register(username, password);
+			onRegister: async (username, password, university) => {
+				await register(username, password, university);
 			},
 			onLogout: () => {
 				set({ user: null, token: null });

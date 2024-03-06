@@ -6,6 +6,7 @@ import './index.css';
 import { CssVarsProvider, StyledEngineProvider } from '@mui/joy';
 import { router } from './routes/router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import './i18n';
 
 const queryClient = new QueryClient();
 
