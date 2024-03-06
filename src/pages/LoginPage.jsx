@@ -2,6 +2,7 @@ import { Box, Card, CardContent, Typography } from '@mui/joy';
 import { Link } from 'react-router-dom';
 import LoginForm from '../components/forms/LoginForm';
 import ThemeToggle from '../components/ThemeToggle';
+import Logo from '../components/logo';
 
 const LoginPage = () => {
 	return (
@@ -27,7 +28,7 @@ const LoginPage = () => {
 					alignItems={'center'}
 					gap={1}
 				>
-					<img src="/Logo-cut.png" alt="CodeCampus" />
+					<Logo />
 					<Typography level="h2">Inicio de sesión</Typography>
 					<Typography
 						level="body-md"
