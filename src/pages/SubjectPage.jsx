@@ -5,6 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Post from '../components/Post';
 import CreatePostModal from '../components/CreatePostModal';
 import { useState } from 'react';
+import SkeletonSubjectPage from '../components/skeletons/SkeletonSubjectPage';
 
 const SubjectPage = () => {
 	const { subjectId } = useParams();
@@ -22,7 +23,7 @@ const SubjectPage = () => {
 	} = useSubjectPosts(subjectId);
 
 	if (subjectStatus === 'pending' || postsStatus === 'pending') {
-		return <p>Loading...</p>;
+		return <SkeletonSubjectPage />;
 	}
 
 	if (subjectStatus === 'error' || postsStatus === 'error') {
