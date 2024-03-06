@@ -9,8 +9,8 @@ import {
 } from '@mui/joy';
 import { useForm } from 'react-hook-form';
 import InputField from './forms/InputField';
-import { useCreatePostMutation } from '../hooks/queries/usePost';
 import { useQueryClient } from '@tanstack/react-query';
+import { useCreateSubjectPostMutation } from '../hooks/queries/subjects';
 
 const CreatePostModal = ({ open, setOpen, subjectId }) => {
 	const { control, handleSubmit, watch } = useForm();
@@ -18,15 +18,15 @@ const CreatePostModal = ({ open, setOpen, subjectId }) => {
 	const description = watch('description');
 
 	const queryClient = useQueryClient();
-	const createPostMutation = useCreatePostMutation();
+	const createPostMutation = useCreateSubjectPostMutation();
 
 	const createPost = async (data) => {
 		createPostMutation.mutate(
-			{ subject: subjectId, ...data },
+			{ subjectId, ...data },
 			{
 				onSuccess: () => {
 					queryClient.invalidateQueries({
-						queryKey: ['subjectPosts', subjectId],
+						queryKey: ['subjects', subjectId, 'posts'],
 					});
 					setOpen(false);
 				},

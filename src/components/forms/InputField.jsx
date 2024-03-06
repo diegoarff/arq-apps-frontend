@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
 	Box,
 	Chip,
@@ -6,8 +7,11 @@ import {
 	FormLabel,
 	Input,
 	Textarea,
+	IconButton,
 } from '@mui/joy';
 import ClearIcon from '@mui/icons-material/Clear';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useController } from 'react-hook-form';
 
 const InputField = ({
@@ -30,6 +34,12 @@ const InputField = ({
 		rules,
 		defaultValue,
 	});
+
+	const [showPassword, setShowPassword] = useState(type !== 'password');
+
+	const handleTogglePasswordVisibility = () => {
+		setShowPassword(!showPassword);
+	};
 
 	return (
 		<FormControl error={!!error}>
@@ -82,8 +92,15 @@ const InputField = ({
 					onChange={onChange}
 					onBlur={onBlur}
 					placeholder={placeholder}
-					type={type}
+					type={showPassword ? 'text' : type}
 					{...props}
+					endDecorator={
+						type === 'password' && (
+							<IconButton onClick={handleTogglePasswordVisibility}>
+								{showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+							</IconButton>
+						)
+					}
 				/>
 			)}
 			<FormHelperText>{error ? error.message : ''}</FormHelperText>
