@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useSubjectById } from '../hooks/queries/useSubject';
-import { useSubjectPosts } from '../hooks/queries/usePost';
+import { useSubjectById, useSubjectPosts } from '../hooks/queries/subjects';
 import { Box, Button, Grid, Typography } from '@mui/joy';
 import AddIcon from '@mui/icons-material/Add';
 import Post from '../components/Post';

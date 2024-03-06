@@ -1,8 +1,10 @@
-import { Button, Stack } from '@mui/joy';
+import { Button, FormLabel, Option, Select, Stack } from '@mui/joy';
 import { useAuthStore } from '../../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import InputField from './InputField';
+import { useUniversities } from '../../hooks/queries/universities';
+import { useState } from 'react';
 
 const RegisterForm = () => {
 	const navigate = useNavigate();
@@ -10,8 +12,11 @@ const RegisterForm = () => {
 	const { control, handleSubmit, watch } = useForm();
 	const password = watch('password');
 
+	const [university, setUniversity] = useState(null);
+	const { data: universities, isPending } = useUniversities();
+
 	const submitHandler = async (data) => {
-		await onRegister(data.username, data.password);
+		await onRegister(data.username, data.password, university);
 		navigate('/auth/login', { replace: true });
 	};
 
@@ -60,7 +65,25 @@ const RegisterForm = () => {
 					}}
 				/>
 
-				<Button type="submit">Registrarse</Button>
+				<FormLabel>Universidad</FormLabel>
+				<Select
+					placeholder="Selecciona tu universidad"
+					disabled={isPending}
+					onChange={(_, value) => {
+						setUniversity(value);
+					}}
+				>
+					{universities &&
+						universities.map((university) => (
+							<Option key={university.id} value={university.id}>
+								{university.name}
+							</Option>
+						))}
+				</Select>
+
+				<Button type="submit" disabled={isPending}>
+					Registrarse
+				</Button>
 			</Stack>
 		</form>
 	);
