@@ -1,19 +1,15 @@
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import Navbar from '../navbar/Navbar';
 import Sidebar from './Sidebar';
 import { Box, Stack } from '@mui/joy';
 import { useAuthStore } from '../../store/useAuthStore';
-import { useEffect } from 'react';
 
 const RootLayout = () => {
-	const { user, token } = useAuthStore();
-	const navigate = useNavigate();
+	const user = useAuthStore((state) => state.user);
 
-	useEffect(() => {
-		if (!user || !token) {
-			return navigate('/auth/login', { replace: true });
-		}
-	}, [user, token, navigate]);
+	if (!user) {
+		return <Navigate to="/auth/login" replace />;
+	}
 
 	return (
 		<Stack sx={{ height: '100dvh', backgroundColor: 'background.surface' }}>
