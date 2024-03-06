@@ -2,6 +2,7 @@ import { Typography, Stack } from '@mui/joy';
 import { NavLink } from 'react-router-dom';
 import { useAuthStore } from '../../store/useAuthStore';
 import { useUniversitySubjects } from '../../hooks/queries/universities';
+import SidebarSkeleton from '../skeletons/SkeletonSidebar';
 
 const Sidebar = () => {
 	return (
@@ -36,7 +37,7 @@ const SidebarData = () => {
 	const { data, error, status } = useUniversitySubjects(user.university.id);
 
 	if (status === 'pending') {
-		return <Typography>Loading...</Typography>;
+		return <SidebarSkeleton />;
 	}
 
 	if (status === 'error') {
