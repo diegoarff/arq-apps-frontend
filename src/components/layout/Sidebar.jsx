@@ -39,14 +39,14 @@ const SidebarData = () => {
 		(state) => state.setSelectedSubject
 	);
 
-	const { data, error, status } = useUniversitySubjects(user.university.id);
+	const { data, status } = useUniversitySubjects(user.university.id);
 
 	if (status === 'pending') {
 		return <SidebarSkeleton />;
 	}
 
 	if (status === 'error') {
-		return <Typography>{error.message}</Typography>;
+		throw new Error('Error al intentar obtener los datos');
 	}
 
 	return (

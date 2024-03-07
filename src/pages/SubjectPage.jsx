@@ -1,25 +1,15 @@
-import { json, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSubjectById, useSubjectPosts } from '../hooks/queries/subjects';
-import { Box, Button, Grid, Typography } from '@mui/joy';
+import { Box, Button, Grid, Skeleton, Typography } from '@mui/joy';
 import AddIcon from '@mui/icons-material/Add';
 import Post from '../components/Post';
 import CreatePostModal from '../components/CreatePostModal';
 import { useState } from 'react';
-import SkeletonSubjectPage from '../components/skeletons/SkeletonSubjectPage';
+import SkeletonPosts from '../components/skeletons/SkeletonPosts';
 
 const SubjectPage = () => {
 	const { subjectId } = useParams();
 	const [isModalOpen, setIsModalOpen] = useState(false);
-
-	const { data: posts, status } = useSubjectPosts(subjectId);
-
-	if (status === 'pending') {
-		return <SkeletonSubjectPage />;
-	}
-
-	if (status === 'error') {
-		throw new json({ message: `Failed to fetch data` }, { status: 500 });
-	}
 
 	return (
 		<Box
@@ -36,23 +26,8 @@ const SubjectPage = () => {
 				width="100%"
 				spacing={2}
 			>
-				<Grid xs={6}>
-					<SubjectPageHeader subjectId={subjectId} />
-				</Grid>
-
-				{posts.length > 0 ? (
-					posts.map((post) => (
-						<Grid item xs={6} key={post.id}>
-							<Post post={post} />
-						</Grid>
-					))
-				) : (
-					<Grid item xs={6}>
-						<Typography level="body-md">
-							Aún no hay publicaciones en esta materia
-						</Typography>
-					</Grid>
-				)}
+				<SubjectHeader subjectId={subjectId} />
+				<SubjectPosts subjectId={subjectId} />
 			</Grid>
 			<CreatePostButton setOpen={setIsModalOpen} />
 			<CreatePostModal
@@ -64,18 +39,61 @@ const SubjectPage = () => {
 	);
 };
 
-const SubjectPageHeader = ({ subjectId }) => {
-	const { data, status } = useSubjectById(subjectId);
+const SubjectPosts = ({ subjectId }) => {
+	const { data, status } = useSubjectPosts(subjectId);
 
 	if (status === 'pending') {
-		return <Typography>Loading...</Typography>;
+		return <SkeletonPosts />;
 	}
 
 	if (status === 'error') {
-		throw new json({ message: `Failed to fetch data` }, { status: 500 });
+		throw new Error('Error al intentar obtener los datos');
 	}
 
-	return <Typography level="h1">{data.name}</Typography>;
+	return (
+		<>
+			{data.length > 0 ? (
+				data.map((post) => (
+					<Grid item xs={6} key={post._id}>
+						<Post post={post} />
+					</Grid>
+				))
+			) : (
+				<Grid item xs={6}>
+					<Typography level="body-md">
+						Aún no hay publicaciones en esta materia
+					</Typography>
+				</Grid>
+			)}
+		</>
+	);
+};
+
+const SubjectHeader = ({ subjectId }) => {
+	const { data, status } = useSubjectById(subjectId);
+
+	if (status === 'pending') {
+		return (
+			<Grid xs={6}>
+				<Typography
+					level="h1"
+					sx={{ position: 'relative', overflow: 'hidden' }}
+				>
+					<Skeleton>Esto es un nombre</Skeleton>
+				</Typography>
+			</Grid>
+		);
+	}
+
+	if (status === 'error') {
+		throw new Error('Error al intentar obtener los datos');
+	}
+
+	return (
+		<Grid xs={6}>
+			<Typography level="h1">{data.name}</Typography>
+		</Grid>
+	);
 };
 
 const CreatePostButton = ({ setOpen }) => {
