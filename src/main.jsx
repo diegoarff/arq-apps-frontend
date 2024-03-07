@@ -6,6 +6,7 @@ import './index.css';
 import { CssVarsProvider, StyledEngineProvider } from '@mui/joy';
 import { router } from './routes/router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Snack from './components/Snack';
 import './i18n';
 import themes from './themes';
 import { useAuthStore } from './store/useAuthStore';
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 		<QueryClientProvider client={queryClient}>
 			<StyledEngineProvider injectFirst>
 			<CssVarsProvider defaultMode="dark" theme={localeTheme}>
+					<Snack />
 					<RouterProvider router={router} />
 				</CssVarsProvider>
 			</StyledEngineProvider>

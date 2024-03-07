@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { json, useParams } from 'react-router-dom';
 import { useSubjectById, useSubjectPosts } from '../hooks/queries/subjects';
 import { Box, Button, Grid, Typography } from '@mui/joy';
 import AddIcon from '@mui/icons-material/Add';
@@ -11,28 +11,14 @@ const SubjectPage = () => {
 	const { subjectId } = useParams();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const {
-		data: subject,
-		error: subjectError,
-		status: subjectStatus,
-	} = useSubjectById(subjectId);
-	const {
-		data: posts,
-		error: postsError,
-		status: postsStatus,
-	} = useSubjectPosts(subjectId);
+	const { data: posts, status } = useSubjectPosts(subjectId);
 
-	if (subjectStatus === 'pending' || postsStatus === 'pending') {
+	if (status === 'pending') {
 		return <SkeletonSubjectPage />;
 	}
 
-	if (subjectStatus === 'error' || postsStatus === 'error') {
-		return (
-			<>
-				{subjectError && <p>Error: {subjectError.message}</p>}
-				{postsError && <p>Error: {postsError.message}</p>}
-			</>
-		);
+	if (status === 'error') {
+		throw new json({ message: `Failed to fetch data` }, { status: 500 });
 	}
 
 	return (
@@ -51,7 +37,7 @@ const SubjectPage = () => {
 				spacing={2}
 			>
 				<Grid xs={6}>
-					<Typography level="h1">{subject.name}</Typography>
+					<SubjectPageHeader subjectId={subjectId} />
 				</Grid>
 
 				{posts.length > 0 ? (
@@ -76,6 +62,20 @@ const SubjectPage = () => {
 			/>
 		</Box>
 	);
+};
+
+const SubjectPageHeader = ({ subjectId }) => {
+	const { data, status } = useSubjectById(subjectId);
+
+	if (status === 'pending') {
+		return <Typography>Loading...</Typography>;
+	}
+
+	if (status === 'error') {
+		throw new json({ message: `Failed to fetch data` }, { status: 500 });
+	}
+
+	return <Typography level="h1">{data.name}</Typography>;
 };
 
 const CreatePostButton = ({ setOpen }) => {

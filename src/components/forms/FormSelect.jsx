@@ -7,6 +7,7 @@ const FormSelect = ({
 	name,
 	rules = {},
 	placeholder = '',
+	defaultValue = '',
 	children,
 	...props
 }) => {
@@ -17,6 +18,7 @@ const FormSelect = ({
 		name,
 		control,
 		rules,
+		defaultValue,
 	});
 
 	return (
@@ -31,11 +33,9 @@ const FormSelect = ({
 
 			<Select
 				value={value}
-				onChange={onChange}
+				onChange={(_, value) => onChange(value)}
 				placeholder={placeholder}
-				sx={{
-					marginTop: -2,
-				}}
+				defaultValue={''}
 				{...props}
 			>
 				{children}
