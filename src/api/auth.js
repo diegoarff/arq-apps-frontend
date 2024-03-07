@@ -1,27 +1,22 @@
 import { api } from './axios';
 
-export const login = async (username, password) => {
+export const login = async (data) => {
 	try {
-		const response = await api.post('/auth/login', {
-			username,
-			password,
-		});
+		const response = await api.post('/auth/login', data);
 		return response.data.data;
 	} catch (error) {
-		return error.response.data;
+		throw new Error(`Error logging user in: ${error.response.data.message}`);
 	}
 };
 
-export const register = async (username, password, university) => {
+export const register = async (data) => {
 	try {
 		const response = await api.post('/auth/register', {
-			username,
-			password,
+			...data,
 			role: '65e7c9debf7f0ca95edb4b16',
-			university,
 		});
-		return response.data;
+		return response.data.data;
 	} catch (error) {
-		return error.response.data;
+		throw new Error(error.response.data.message);
 	}
 };

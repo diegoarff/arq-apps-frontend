@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { useAuthStore } from '../../store/useAuthStore';
 import { useUniversitySubjects } from '../../hooks/queries/universities';
 import SidebarSkeleton from '../skeletons/SkeletonSidebar';
+import { useGlobalStore } from '../../store/useGlobalStore';
 
 const Sidebar = () => {
 	return (
@@ -34,6 +35,10 @@ const Sidebar = () => {
 
 const SidebarData = () => {
 	const user = useAuthStore((state) => state.user);
+	const setSelectedSubject = useGlobalStore(
+		(state) => state.setSelectedSubject
+	);
+
 	const { data, error, status } = useUniversitySubjects(user.university.id);
 
 	if (status === 'pending') {
@@ -64,6 +69,7 @@ const SidebarData = () => {
 									to={`/subject/${subject.id}`}
 									style={{ textDecoration: 'none' }}
 									key={subject.id}
+									onClick={() => setSelectedSubject(subject)}
 								>
 									{({ isActive }) => (
 										<SidebarItem isActive={isActive} subject={subject} />
