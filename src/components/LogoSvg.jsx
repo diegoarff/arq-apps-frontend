@@ -2,7 +2,7 @@ import themes from '../themes';
 import Typography from '@mui/material/Typography';
 import { useAuthStore } from '../store/useAuthStore';
 
-const Logo = () => {
+const LogoSvg = () => {
 	const { user } = useAuthStore.getState();
 	const localeTheme = user ? themes[user.university.locale] : themes['default'];
 
@@ -48,4 +48,4 @@ const Logo = () => {
 	);
 };
 
-export default Logo;
+export default LogoSvg;
