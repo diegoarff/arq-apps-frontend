@@ -1,16 +1,12 @@
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import { useAuthStore } from '../../store/useAuthStore';
-import { useEffect } from 'react';
 
 const AuthLayout = () => {
 	const user = useAuthStore((state) => state.user);
-	const navigate = useNavigate();
 
-	useEffect(() => {
-		if (user) {
-			navigate('/home', { replace: true });
-		}
-	}, [navigate, user]);
+	if (user) {
+		return <Navigate to="/" replace />;
+	}
 
 	return <Outlet />;
 };

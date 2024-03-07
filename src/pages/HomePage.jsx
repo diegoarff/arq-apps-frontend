@@ -1,15 +1,23 @@
-import { Button } from '@mui/joy';
+import { Box, Typography } from '@mui/joy';
 import { useAuthStore } from '../store/useAuthStore';
 
 const HomePage = () => {
-	const { user, token } = useAuthStore();
+	const { user } = useAuthStore();
 
 	return (
-		<>
-			<div>{JSON.stringify(user)}</div>
-			<div>{token}</div>
-			<Button onClick={() => useAuthStore.getState().onLogout()}>Logout</Button>
-		</>
+		<Box
+			sx={{
+				height: '100%',
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				flexDirection: 'column',
+				gap: 4,
+			}}
+		>
+			<Typography level="h1">Bienvenido, {user.username}</Typography>
+			<Typography level="body-lg">Selecciona una materia</Typography>
+		</Box>
 	);
 };
 

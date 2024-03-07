@@ -3,15 +3,24 @@ import { useAuthStore } from '../../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import InputField from './InputField';
+import { useGlobalStore } from '../../store/useGlobalStore';
 
 const LoginForm = () => {
 	const navigate = useNavigate();
 	const onLogin = useAuthStore((state) => state.onLogin);
+	const openSnackbar = useGlobalStore((state) => state.openSnackbar);
+
 	const { control, handleSubmit } = useForm();
 
 	const submitHandler = async (data) => {
-		await onLogin(data.username, data.password);
-		navigate('/');
+		try {
+			await onLogin(data);
+			openSnackbar('Sesión iniciada', 'neutral');
+			navigate('/', { replace: true });
+		} catch (error) {
+			openSnackbar(error, 'danger');
+			console.error(error);
+		}
 	};
 
 	return (

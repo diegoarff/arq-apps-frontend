@@ -1,18 +1,30 @@
-import { Button, Stack } from '@mui/joy';
+import { Button, Option, Stack } from '@mui/joy';
 import { useAuthStore } from '../../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import InputField from './InputField';
+import { useUniversities } from '../../hooks/queries/universities';
+import FormSelect from './FormSelect';
+import { useGlobalStore } from '../../store/useGlobalStore';
 
 const RegisterForm = () => {
 	const navigate = useNavigate();
 	const onRegister = useAuthStore((state) => state.onRegister);
+	const openSnackbar = useGlobalStore((state) => state.openSnackbar);
 	const { control, handleSubmit, watch } = useForm();
 	const password = watch('password');
 
+	const { data: universities, isPending } = useUniversities();
+
 	const submitHandler = async (data) => {
-		await onRegister(data.username, data.password);
-		navigate('/login');
+		try {
+			await onRegister(data);
+			openSnackbar('Cuenta creada exitosamente', 'neutral');
+			navigate('/auth/login', { replace: true });
+		} catch (error) {
+			openSnackbar(error, 'danger');
+			console.error(error);
+		}
 	};
 
 	return (
@@ -60,7 +72,26 @@ const RegisterForm = () => {
 					}}
 				/>
 
-				<Button type="submit">Registrarse</Button>
+				<FormSelect
+					label="Universidad"
+					control={control}
+					name="university"
+					rules={{
+						required: 'Universidad es requerida',
+					}}
+					disabled={isPending}
+				>
+					{universities &&
+						universities.map((university) => (
+							<Option key={university.id} value={university.id}>
+								{university.name}
+							</Option>
+						))}
+				</FormSelect>
+
+				<Button type="submit" disabled={isPending}>
+					Registrarse
+				</Button>
 			</Stack>
 		</form>
 	);
