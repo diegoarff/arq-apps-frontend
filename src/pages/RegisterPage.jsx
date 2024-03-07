@@ -2,7 +2,7 @@ import { Box, Card, CardContent, Typography } from '@mui/joy';
 import RegisterForm from '../components/forms/RegisterForm';
 import { Link } from 'react-router-dom';
 import ThemeToggle from '../components/ThemeToggle';
-import Logo from '../components/logo';
+import Logo from '../components/Logo';
 
 const RegisterPage = () => {
 	return (
