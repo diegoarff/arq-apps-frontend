@@ -2,7 +2,7 @@ import { Box, Card, CardContent, Typography } from '@mui/joy';
 import RegisterForm from '../components/forms/RegisterForm';
 import { Link } from 'react-router-dom';
 import ThemeToggle from '../components/ThemeToggle';
-import Logo from '../components/Logo';
+import LogoSvg from '../components/LogoSvg';
 
 const RegisterPage = () => {
 	return (
@@ -28,7 +28,7 @@ const RegisterPage = () => {
 					alignItems={'center'}
 					gap={1}
 				>
-					<Logo />
+					<LogoSvg />
 					<Typography level="h2">Registro</Typography>
 					<Typography
 						level="body-md"

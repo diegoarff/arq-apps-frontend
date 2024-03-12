@@ -30,7 +30,7 @@ export const useSubjectPosts = (subjectId) => {
 
 export const useCreateSubjectPostMutation = () => {
 	return useMutation({
-		mutationFn: ({ subjectId, data }) => createSubjectPost(subjectId, data),
+		mutationFn: (data) => createSubjectPost(data),
 		onError: (error) => {
 			console.log('🚀 ~ useCreateSubjectPostMutation ~ error:', error);
 		},

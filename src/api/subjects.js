@@ -27,9 +27,12 @@ export const getSubjectPosts = async (subjectId) => {
 	}
 };
 
-export const createSubjectPost = async (subjectId, post) => {
+export const createSubjectPost = async ({ subjectId, title, description }) => {
 	try {
-		const response = await api.post(`/subjects/${subjectId}/posts`, post);
+		const response = await api.post(`/subjects/${subjectId}/posts`, {
+			title,
+			description,
+		});
 		return response.data.data;
 	} catch (error) {
 		throw new Error(`Error creating post: ${error.response.data.message}`);
