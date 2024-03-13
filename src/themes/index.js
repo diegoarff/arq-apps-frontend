@@ -1,15 +1,13 @@
-import enTheme from './en';
-import esTheme from './es';
+import veTheme from './ve';
+import usTheme from './us';
 import frTheme from './fr';
 import defaultTheme from './default';
 
-
 const themes = {
-    en: enTheme,
-    es: esTheme,
-    fr: frTheme,
-    default: defaultTheme,
-    
+	ve: veTheme,
+	us: usTheme,
+	fr: frTheme,
+	default: defaultTheme,
 };
 
 export default themes;
