@@ -3,6 +3,7 @@ import RegisterForm from '../components/forms/RegisterForm';
 import { Link } from 'react-router-dom';
 import ThemeToggle from '../components/ThemeToggle';
 import LogoSvg from '../components/LogoSvg';
+import CountrySelect from '../components/CountrySelect';
 
 const RegisterPage = () => {
 	return (
@@ -59,11 +60,14 @@ const RegisterPage = () => {
 			</Card>
 			<Box
 				sx={{
+					display: 'flex',
+					gap: 2,
 					position: 'absolute',
 					top: 16,
 					right: 16,
 				}}
 			>
+				<CountrySelect />
 				<ThemeToggle />
 			</Box>
 		</Box>

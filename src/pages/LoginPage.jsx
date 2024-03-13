@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import LoginForm from '../components/forms/LoginForm';
 import ThemeToggle from '../components/ThemeToggle';
 import LogoSvg from '../components/LogoSvg';
+import CountrySelect from '../components/CountrySelect';
 
 const LoginPage = () => {
 	return (
@@ -58,11 +59,14 @@ const LoginPage = () => {
 			</Card>
 			<Box
 				sx={{
+					display: 'flex',
+					gap: 2,
 					position: 'absolute',
 					top: 16,
 					right: 16,
 				}}
 			>
+				<CountrySelect />
 				<ThemeToggle />
 			</Box>
 		</Box>
