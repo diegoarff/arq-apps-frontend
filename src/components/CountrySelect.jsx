@@ -6,17 +6,17 @@ const CountrySelect = () => {
 	const options = [
 		{
 			label: 'Venezuela',
-			value: 'https://arq-apps-frontend-es.vercel.app/',
+			value: 'arq-apps-frontend-es.vercel.app',
 			country: 've',
 		},
 		{
 			label: 'Estados Unidos',
-			value: 'https://arq-apps-frontend-en.vercel.app/',
+			value: 'arq-apps-frontend-en.vercel.app',
 			country: 'us',
 		},
 		{
 			label: 'Francia',
-			value: 'https://arq-apps-frontend-fr.vercel.app/',
+			value: 'arq-apps-frontend-fr.vercel.app',
 			country: 'fr',
 		},
 	];
