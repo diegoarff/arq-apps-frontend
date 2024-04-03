@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const useTeachersBySubject = (subjectId) => {
 	return useQuery({
-		queryKey: ['subjects', subjectId],
+		queryKey: ['subjects', subjectId, 'teachers'],
 		queryFn: () => getTeacherBySubjects(subjectId),
 	});
 };
