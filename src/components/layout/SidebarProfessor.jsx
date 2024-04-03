@@ -1,9 +1,11 @@
 import { Button, Stack, Typography } from '@mui/joy';
 import { NavLink } from 'react-router-dom';
-
+import { useState } from 'react';
 //TODO: Conectar con librerias.
+import CreateProfesorModal from '../modals/ModalProfessor';
 
 const SidebarProfessor = () => {
+	const [openModal, setOpenModal] = useState(false);
 	return (
 		<Stack
 			gap={2}
@@ -17,12 +19,13 @@ const SidebarProfessor = () => {
 				width: 300,
 			}}
 		>
-			<SidebarProfessorData />
+			<SidebarProfessorData setOpenModal={setOpenModal} />
+			<CreateProfesorModal open={openModal} setOpen={setOpenModal} />
 		</Stack>
 	);
 };
 
-const SidebarProfessorData = () => {
+const SidebarProfessorData = ({ setOpenModal }) => {
 	return (
 		<Stack direction="column" gap={1}>
 			<Typography
@@ -35,8 +38,9 @@ const SidebarProfessorData = () => {
 
 			<Stack gap={0.5}>
 				<Button variant="plain">
-					<SidebarProfessorItem />
+					<SidebarProfessorItem setOpenModal={setOpenModal} />
 				</Button>
+
 				<NavLink
 					/* to={`/subject/${subject.id}`} */
 					style={{ textDecoration: 'none' }}
@@ -44,8 +48,8 @@ const SidebarProfessorData = () => {
 					/* onClick={() => setSelectedSubject(subject)} */
 				>
 					{/* {({ isActive }) => (
-										<SidebarItem isActive={isActive} subject={subject} />
-									)} */}
+							<SidebarItem isActive={isActive} subject={subject} />
+						)} */}
 					<SidebarProfessorItem />
 				</NavLink>
 			</Stack>
@@ -53,24 +57,26 @@ const SidebarProfessorData = () => {
 	);
 };
 
-const SidebarProfessorItem = () => {
+const SidebarProfessorItem = ({ setOpenModal }) => {
+	const handleRateClick = () => {
+		setOpenModal(true);
+	};
+
 	return (
 		<Typography
 			level="body-md"
 			sx={{
-				/* color: isActive ? `primary.500` : `text.secondary`, */
 				px: 2,
 				py: 1,
 				borderRadius: 8,
 				cursor: 'pointer',
 				transition: 'all 0.2s ease-in-out',
-				/* backgroundColor: isActive ? 'background.level2' : 'transparent', */
 				'&:hover': {
 					backgroundColor: 'background.level2',
 				},
 			}}
+			onClick={handleRateClick}
 		>
-			{/* {subject.name} */}
 			José Luis Machado Pulgar
 		</Typography>
 	);
