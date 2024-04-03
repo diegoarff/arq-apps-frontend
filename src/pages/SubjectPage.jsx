@@ -6,6 +6,7 @@ import Post from '../components/Post';
 import CreatePostModal from '../components/CreatePostModal';
 import { useState } from 'react';
 import SkeletonPosts from '../components/skeletons/SkeletonPosts';
+import SidebarProfessor from '../components/layout/SidebarProfessor';
 
 const SubjectPage = () => {
 	const { subjectId } = useParams();
@@ -20,14 +21,23 @@ const SubjectPage = () => {
 		>
 			<Grid
 				container
-				direction="column"
+				spacing={2}
+				sx={{ flexGrow: 1 }}
+				/* container
+				direction="row"
 				justifyContent="center"
 				alignItems="center"
 				width="100%"
-				spacing={2}
+				spacing={2} */
 			>
-				<SubjectHeader subjectId={subjectId} />
-				<SubjectPosts subjectId={subjectId} />
+				<Grid xs={9}>
+					<SubjectHeader subjectId={subjectId} />
+					<SubjectPosts subjectId={subjectId} />
+				</Grid>
+
+				<Grid xs={3}>
+					<SidebarProfessor />
+				</Grid>
 			</Grid>
 			<CreatePostButton setOpen={setIsModalOpen} />
 			<CreatePostModal
