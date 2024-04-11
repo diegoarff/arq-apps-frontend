@@ -5,6 +5,8 @@ import { useUniversitySubjects } from '../../hooks/queries/universities';
 import SidebarSkeleton from '../skeletons/SkeletonSidebar';
 import { useGlobalStore } from '../../store/useGlobalStore';
 
+//Falta traducir TRIMESTRE dependiendo del país.
+
 const Sidebar = () => {
 	return (
 		<Stack

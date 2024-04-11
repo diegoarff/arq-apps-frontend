@@ -16,12 +16,14 @@
     "src/**/*.{js,jsx,css}": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@fontsource/inter": "^5.0.16",
     "@mui/icons-material": "^5.15.10",
     "@mui/joy": "^5.0.0-beta.28",
-    "@mui/material": "^5.15.10",
+    "@mui/material": "^5.15.14",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.18",
+    "@smastrom/react-rating": "^1.5.0",
     "@tanstack/react-query": "^5.21.7",
     "axios": "^1.6.7",
     "i18next": "^23.10.0",
@@ -30,6 +32,7 @@
     "react-hook-form": "^7.50.1",
     "react-i18next": "^14.0.5",
     "react-router-dom": "^6.22.1",
+    "styled-components": "^6.1.8",
     "zustand": "^4.5.1"
   },
   "devDependencies": {

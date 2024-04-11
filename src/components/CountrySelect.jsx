@@ -1,22 +1,22 @@
 import { Select, Option } from '@mui/joy';
 
 const CountrySelect = () => {
-	const currentUrl = window.location.href.split('/')[2];
+	const currentUrl = window.location.origin;
 
 	const options = [
 		{
 			label: 'Venezuela',
-			value: 'arq-apps-frontend-es.vercel.app',
+			value: 'https://arq-apps-frontend-es.vercel.app',
 			country: 've',
 		},
 		{
 			label: 'Estados Unidos',
-			value: 'arq-apps-frontend-en.vercel.app',
+			value: 'https://arq-apps-frontend-en.vercel.app',
 			country: 'us',
 		},
 		{
 			label: 'Francia',
-			value: 'arq-apps-frontend-fr.vercel.app',
+			value: 'https://arq-apps-frontend-fr.vercel.app',
 			country: 'fr',
 		},
 	];

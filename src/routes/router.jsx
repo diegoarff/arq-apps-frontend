@@ -6,6 +6,7 @@ import RootLayout from '../components/layout/RootLayout';
 import SubjectPage from '../pages/SubjectPage';
 import AuthLayout from '../components/layout/AuthLayout';
 import ErrorPage from '../pages/ErrorPage';
+import PostPage from '../pages/PostPage';
 
 export const router = createBrowserRouter([
 	{
@@ -15,6 +16,7 @@ export const router = createBrowserRouter([
 		children: [
 			{ path: '/', element: <HomePage /> },
 			{ path: '/subject/:subjectId', element: <SubjectPage /> },
+			{ path: '/post/:postId', element: <PostPage /> },
 		],
 	},
 	{

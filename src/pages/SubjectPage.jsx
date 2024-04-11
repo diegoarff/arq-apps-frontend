@@ -1,11 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { useSubjectById, useSubjectPosts } from '../hooks/queries/subjects';
-import { Box, Button, Grid, Skeleton, Typography } from '@mui/joy';
+import { Box, Button, Grid, Skeleton, Typography, Stack } from '@mui/joy';
 import AddIcon from '@mui/icons-material/Add';
 import Post from '../components/Post';
 import CreatePostModal from '../components/CreatePostModal';
 import { useState } from 'react';
 import SkeletonPosts from '../components/skeletons/SkeletonPosts';
+import SidebarProfessor from '../components/layout/SidebarProfessor';
 
 const SubjectPage = () => {
 	const { subjectId } = useParams();
@@ -18,18 +19,20 @@ const SubjectPage = () => {
 				position: 'relative',
 			}}
 		>
-			<Grid
-				container
-				direction="column"
-				justifyContent="center"
-				alignItems="center"
-				width="100%"
-				spacing={2}
-			>
-				<SubjectHeader subjectId={subjectId} />
-				<SubjectPosts subjectId={subjectId} />
+			<Grid container spacing={4}>
+				<Grid xs={9}>
+					<SubjectHeader subjectId={subjectId} />
+					<SubjectPosts subjectId={subjectId} />
+				</Grid>
+
+				<Grid
+					xs={2.5}
+					sx={{ position: 'fixed', height: 'calc(100vh - 100px)', right: 0 }}
+				>
+					<SidebarProfessor />
+					<CreatePostButton setOpen={setIsModalOpen} />
+				</Grid>
 			</Grid>
-			<CreatePostButton setOpen={setIsModalOpen} />
 			<CreatePostModal
 				open={isModalOpen}
 				setOpen={setIsModalOpen}
@@ -51,21 +54,15 @@ const SubjectPosts = ({ subjectId }) => {
 	}
 
 	return (
-		<>
+		<Stack sx={{ gap: 3 }}>
 			{data.length > 0 ? (
-				data.map((post) => (
-					<Grid item xs={6} key={post._id}>
-						<Post post={post} />
-					</Grid>
-				))
+				data.map((post) => <Post post={post} key={post._id} />)
 			) : (
-				<Grid item xs={6}>
-					<Typography level="body-md">
-						Aún no hay publicaciones en esta materia
-					</Typography>
-				</Grid>
+				<Typography level="body-md">
+					Aún no hay publicaciones en esta materia
+				</Typography>
 			)}
-		</>
+		</Stack>
 	);
 };
 
@@ -104,7 +101,7 @@ const CreatePostButton = ({ setOpen }) => {
 			sx={{
 				position: 'absolute',
 				bottom: 0,
-				right: 0,
+				right: 16,
 				borderRadius: 16,
 				border: '1px solid',
 				borderColor: 'primary.outlinedBorder',

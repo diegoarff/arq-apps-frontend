@@ -1,10 +1,8 @@
 import themes from '../themes';
 import Typography from '@mui/material/Typography';
-import { useAuthStore } from '../store/useAuthStore';
 
 const LogoSvg = () => {
-	const { user } = useAuthStore.getState();
-	const localeTheme = user ? themes[user.university.locale] : themes['default'];
+	const localeTheme = themes[import.meta.env.VITE_LOCALE] ?? themes['default'];
 
 	return (
 		<div
