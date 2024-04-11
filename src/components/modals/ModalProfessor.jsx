@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
 	Box,
 	Button,
@@ -6,29 +7,38 @@ import {
 	Modal,
 	ModalDialog,
 	Stack,
+	Typography,
 } from '@mui/joy';
-import { useForm } from 'react-hook-form';
-import InputField from '../forms/InputField';
-import { useQueryClient } from '@tanstack/react-query';
+import { Rating, Star } from '@smastrom/react-rating';
 import { useCreateTeacherRatingMutation } from '../../hooks/queries/teachers';
+import { useParams } from 'react-router-dom';
 
-const CreateProfesorModal = ({ open, setOpen, subjectId }) => {
-	const { control, handleSubmit, watch } = useForm();
-	const rating = watch('rating');
+const ratingValues = ['Muy malo', 'Malo', 'Regular', 'Bueno', 'Muy bueno'];
 
-	const queryClient = useQueryClient();
+const CreateProfesorModal = ({ open, setOpen, teacher }) => {
+	const { subjectId } = useParams();
+	const [rating, setRating] = useState(0);
+	const [hoverRating, setHoverRating] = useState(0);
+
 	const createTeacherRatingMutation = useCreateTeacherRatingMutation();
 
-	const rateTeacher = async (data) => {
+	const rateTeacher = () => {
 		createTeacherRatingMutation.mutate(
-			{ subjectId, ...data },
+			{ subject: subjectId, value: rating, teacher: teacher.id },
 			{
 				onSuccess: () => {
-					queryClient.invalidateQueries(['subjects', subjectId]);
 					setOpen(false);
 				},
 			}
 		);
+	};
+
+	// Declare it outside your component so it doesn't get re-created
+	const myStyles = {
+		itemShapes: Star,
+		activeFillColor: '#ffb700',
+		inactiveFillColor: '#fbf1a9',
+		orientation: 'horizontal',
 	};
 
 	return (
@@ -36,52 +46,54 @@ const CreateProfesorModal = ({ open, setOpen, subjectId }) => {
 			<ModalDialog sx={{ width: '40%' }}>
 				<DialogTitle>Calificar profesor</DialogTitle>
 				<DialogContent>Califica al profesor seleccionado.</DialogContent>
-				<form onSubmit={handleSubmit(rateTeacher)}>
-					<Stack spacing={2}>
-						<InputField
-							label="Calificación"
-							name="rating"
-							control={control}
-							type="number"
-							rules={{
-								required: 'La calificación es requerida',
-								min: {
-									value: 1,
-									message: 'La calificación debe ser mínimo 1',
-								},
-								max: {
-									value: 5,
-									message: 'La calificación debe ser máximo 5',
-								},
-							}}
-						/>
+				<Stack spacing={2}>
+					<Stack direction="row" alignItems="center" spacing={2}>
 						<Box
-							sx={{
-								display: 'flex',
-								justifyContent: 'flex-end',
-								gap: 2,
-								alignItems: 'center',
-							}}
+							flex={2}
+							display="flex"
+							justifyContent="center"
+							alignItems="center"
 						>
-							<Button
-								variant="plain"
-								color="danger"
-								onClick={() => {
-									setOpen(false);
-								}}
-							>
-								Cancelar
-							</Button>
-							<Button
-								type="submit"
-								disabled={createTeacherRatingMutation.isPending || !rating}
-								loading={createTeacherRatingMutation.isPending}
-							>
-								Calificar
-							</Button>
+							<Rating
+								style={{ maxWidth: 300 }}
+								value={rating}
+								onChange={setRating}
+								onHoverChange={setHoverRating}
+								itemStyles={myStyles}
+							/>
+						</Box>
+						<Box flex={1}>
+							<Typography>
+								{ratingValues[hoverRating ? hoverRating - 1 : rating - 1]}
+							</Typography>
 						</Box>
 					</Stack>
-				</form>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'flex-end',
+							gap: 2,
+							alignItems: 'center',
+						}}
+					>
+						<Button
+							variant="plain"
+							color="danger"
+							onClick={() => {
+								setOpen(false);
+							}}
+						>
+							Cancelar
+						</Button>
+						<Button
+							disabled={createTeacherRatingMutation.isPending || !rating}
+							loading={createTeacherRatingMutation.isPending}
+							onClick={rateTeacher}
+						>
+							Calificar
+						</Button>
+					</Box>
+				</Stack>
 			</ModalDialog>
 		</Modal>
 	);

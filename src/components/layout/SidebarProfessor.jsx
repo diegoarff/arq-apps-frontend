@@ -1,12 +1,14 @@
 import { Button, Stack, Typography } from '@mui/joy';
 import { useState } from 'react';
 import CreateProfesorModal from '../modals/ModalProfessor';
-/* import { useAuthStore } from '../../store/useAuthStore';
 import { useTeachersBySubject } from '../../hooks/queries/teachers';
-import SidebarSkeleton from '../skeletons/SkeletonSidebar'; */
+import SidebarSkeleton from '../skeletons/SkeletonSidebar';
+import { useParams } from 'react-router-dom';
+import StarIcon from '@mui/icons-material/Star';
 
 const SidebarProfessor = () => {
 	const [openModal, setOpenModal] = useState(false);
+	const [selectedTeacher, setSelectedTeacher] = useState(null);
 	return (
 		<Stack
 			gap={2}
@@ -16,20 +18,30 @@ const SidebarProfessor = () => {
 				border: '1px solid',
 				borderColor: 'divider',
 				borderRadius: '15px',
-				height: 'calc(80vh - 64px)',
-				width: 300,
+				height: 'calc(85vh - 64px)',
 			}}
 		>
-			<SidebarProfessorData setOpenModal={setOpenModal} />
-			<CreateProfesorModal open={openModal} setOpen={setOpenModal} />
+			<SidebarProfessorData
+				setOpenModal={setOpenModal}
+				setTeacher={setSelectedTeacher}
+			/>
+			<CreateProfesorModal
+				open={openModal}
+				setOpen={setOpenModal}
+				teacher={selectedTeacher}
+			/>
 		</Stack>
 	);
 };
 
-const SidebarProfessorData = ({ setOpenModal }) => {
-	/* const user = useAuthStore((state) => state.user);
+const SidebarProfessorData = ({ setOpenModal, setTeacher }) => {
+	const { subjectId } = useParams();
+	const { data, status } = useTeachersBySubject(subjectId);
 
-	const { data, status } = useTeachersBySubject(user.subject.id);
+	const handleTeacherClick = (teacher) => {
+		setTeacher(teacher);
+		setOpenModal(true);
+	};
 
 	if (status === 'pending') {
 		return <SidebarSkeleton />;
@@ -38,8 +50,6 @@ const SidebarProfessorData = ({ setOpenModal }) => {
 	if (status === 'error') {
 		throw new Error('Error al intentar obtener los datos');
 	}
-
-	console.log(data); */
 
 	return (
 		<Stack direction="column" gap={1}>
@@ -52,42 +62,43 @@ const SidebarProfessorData = ({ setOpenModal }) => {
 			</Typography>
 
 			<Stack gap={0.5}>
-				{/* {data.map ((teacher, id) => (
-					<Button variant="plain" key={id}>
-						<SidebarProfessorItem setOpenModal={setOpenModal} teacher={teacher} />
+				{data.map((teacher, idx) => (
+					<Button
+						variant="plain"
+						key={idx}
+						onClick={() => handleTeacherClick(teacher)}
+						sx={{
+							py: 1,
+							'&:hover': {
+								backgroundColor: 'background.level2',
+							},
+							transition: 'all 0.2s ease-in-out',
+						}}
+					>
+						<SidebarProfessorItem teacher={teacher} />
 					</Button>
-				))} */}
-				<Button variant="plain">
-					<SidebarProfessorItem setOpenModal={setOpenModal} />
-				</Button>
+				))}
 			</Stack>
 		</Stack>
 	);
 };
 
-const SidebarProfessorItem = ({ setOpenModal /* teacher  */ }) => {
-	const handleRateClick = () => {
-		setOpenModal(true);
-	};
-
+const SidebarProfessorItem = ({ teacher }) => {
 	return (
-		<Typography
-			level="body-md"
-			sx={{
-				px: 2,
-				py: 1,
-				borderRadius: 8,
-				cursor: 'pointer',
-				transition: 'all 0.2s ease-in-out',
-				'&:hover': {
-					backgroundColor: 'background.level2',
-				},
-			}}
-			onClick={handleRateClick}
+		<Stack
+			direction="row"
+			alignItems="center"
+			justifyContent="space-between"
+			flex={1}
 		>
-			José Luis Machado Pulgar
-			{/* {teacher.name} */}
-		</Typography>
+			<Typography level="body-md">{teacher.name}</Typography>
+			<Stack direction="row" alignItems="center">
+				<Typography level="body-md">
+					{parseFloat(teacher.averageRating).toFixed(1)}
+				</Typography>
+				<StarIcon />
+			</Stack>
+		</Stack>
 	);
 };
 

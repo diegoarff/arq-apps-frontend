@@ -9,19 +9,9 @@ export const getTeacherBySubjects = async (subjectId) => {
 	}
 };
 
-export const createTeacherRating = async ({
-	teacherId,
-	userId,
-	subjectId,
-	value,
-}) => {
+export const createTeacherRating = async (data) => {
 	try {
-		const response = await api.post(`/ratings`, {
-			user: userId,
-			teacher: teacherId,
-			value,
-			subject: subjectId,
-		});
+		const response = await api.post(`/ratings`, data);
 		return response.data.data;
 	} catch (error) {
 		throw new Error(`Error creating post: ${error.response.data.message}`);
