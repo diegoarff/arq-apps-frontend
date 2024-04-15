@@ -1,27 +1,25 @@
-import { Button } from '@mui/joy';
+import { Dropdown, MenuButton, Menu, MenuItem } from '@mui/joy';
 import PersonIcon from '@mui/icons-material/Person';
 import { useAuthStore } from '../../store/useAuthStore';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
 	const user = useAuthStore((state) => state.user);
-	const navigate = useNavigate();
+	//const navigate = useNavigate();
 
 	return (
-		<Button
-			variant="outlined"
-			color="neutral"
-			size="md"
-			startDecorator={<PersonIcon />}
-			onClick={() => navigate('/')}
-			sx={{
-				'&:hover': {
-					backgroundColor: 'background.level2',
-				},
-			}}
-		>
-			{user && user.username}
-		</Button>
+		<>
+			<Dropdown>
+				<MenuButton startDecorator={<PersonIcon />}>
+					{user && user.username}
+				</MenuButton>
+				<Menu>
+					<MenuItem>Perfil</MenuItem>
+					<MenuItem>Panel</MenuItem>
+					<MenuItem>Cerrar sesión</MenuItem>
+				</Menu>
+			</Dropdown>
+		</>
 	);
 };
 
