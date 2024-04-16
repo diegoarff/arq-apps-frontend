@@ -15,7 +15,7 @@ import {
 
 import { useForm } from 'react-hook-form';
 import InputField from '../components/forms/InputField';
-
+import Comment from '../components/Comment';
 // import CreateCommentModal from '../components/CreateCommentModal';
 import SkeletonPosts from '../components/skeletons/SkeletonPosts';
 import {
@@ -133,37 +133,13 @@ const PostPage = () => {
 
 					{comments.length > 0 ? (
 						comments.map((comment) => (
-							<Card
-								variant="outlined"
-								sx={{
-									padding: 2,
-									position: 'relative',
-								}}
+							<Comment
 								key={comment._id}
-							>
-								<Typography level="body-sm">
-									Creado por {comment.user.username} -{' '}
-									{new Date(comment.createdAt).toLocaleDateString()}
-								</Typography>
-								<Typography level="body1">{comment.content}</Typography>
-								{user?.id === comment.user.id && (
-									<Button
-										variant="plain"
-										color="danger"
-										sx={{
-											position: 'absolute',
-											top: 4,
-											right: 4,
-										}}
-										onClick={() => {
-											setSelectedComment(comment);
-											setIsDeleteModalOpen(true);
-										}}
-									>
-										Eliminar
-									</Button>
-								)}
-							</Card>
+								comment={comment}
+								user={user}
+								setIsDeleteModalOpen={setIsDeleteModalOpen}
+								setSelectedComment={setSelectedComment}
+							/>
 						))
 					) : (
 						<Card
