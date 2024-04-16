@@ -1,4 +1,5 @@
 import { Select, Option } from '@mui/joy';
+import { Language } from '@mui/icons-material';
 
 const CountrySelect = () => {
 	const currentUrl = window.location.origin;
@@ -22,7 +23,11 @@ const CountrySelect = () => {
 	];
 
 	return (
-		<Select label="País" defaultValue={currentUrl}>
+		<Select
+			label="País"
+			defaultValue={currentUrl}
+			startDecorator={<Language sx={{ marginLeft: '2px' }} />}
+		>
 			{options.map((option, index) => (
 				<Option
 					key={index}
