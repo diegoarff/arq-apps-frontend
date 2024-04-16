@@ -25,6 +25,7 @@ import {
 	usePostComments,
 } from '../hooks/queries/posts';
 import { useAuthStore } from '../store/useAuthStore';
+import { useNavigate } from 'react-router-dom';
 
 const PostPage = () => {
 	const { postId } = useParams();
@@ -53,6 +54,8 @@ const PostPage = () => {
 		);
 	};
 
+	const navigate = useNavigate();
+
 	if (postStatus === 'pending' || commentsStatus === 'pending') {
 		return <SkeletonPosts skeletonLength={1} />;
 	}
@@ -63,6 +66,12 @@ const PostPage = () => {
 
 	return (
 		<Grid container spacing={4}>
+			<Grid xs={12}>
+				<Button onClick={() => navigate(-1)}>
+					<img src="/backIcon.svg" alt="back" style={{ width: '25px' }} />
+					Volver
+				</Button>
+			</Grid>
 			<Grid xs={9}>
 				<Stack sx={{ gap: 2 }}>
 					<Card
