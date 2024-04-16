@@ -46,7 +46,7 @@ const SubjectPosts = ({ subjectId }) => {
 	const { data, status } = useSubjectPosts(subjectId);
 
 	if (status === 'pending') {
-		return <SkeletonPosts />;
+		return <SkeletonPosts gridXs={12} skeletonLength={3} />;
 	}
 
 	if (status === 'error') {

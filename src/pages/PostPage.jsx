@@ -9,6 +9,7 @@ import {
 	ModalDialog,
 	Stack,
 	Typography,
+	Grid,
 } from '@mui/joy';
 import CreateCommentModal from '../components/CreateCommentModal';
 import SkeletonPosts from '../components/skeletons/SkeletonPosts';
@@ -30,7 +31,7 @@ const PostPage = () => {
 	const [selectedComment, setSelectedComment] = useState(null);
 
 	if (postStatus === 'pending' || commentsStatus === 'pending') {
-		return <SkeletonPosts />;
+		return <SkeletonPosts skeletonLength={1} />;
 	}
 
 	if (postStatus === 'error' || commentsStatus === 'error') {
@@ -38,90 +39,94 @@ const PostPage = () => {
 	}
 
 	return (
-		<Stack sx={{ gap: 2 }}>
-			<Card
-				variant="outlined"
-				sx={{
-					padding: 2,
-				}}
-			>
-				<Typography level="body-sm">
-					Creado por {post.user.username} -{' '}
-					{new Date(post.createdAt).toLocaleDateString()}
-				</Typography>
-
-				<Typography level="h4">{post.title}</Typography>
-				<Typography level="body-sm">{post.description}</Typography>
-			</Card>
-
-			<Button
-				sx={{
-					width: '100%',
-				}}
-				onClick={() => setIsModalOpen(true)}
-			>
-				Publicar comentario
-			</Button>
-			<CreateCommentModal
-				open={isModalOpen}
-				setOpen={setIsModalOpen}
-				postId={postId}
-			/>
-			<DeleteConfirmationModal
-				open={isDeleteModalOpen}
-				setOpen={setIsDeleteModalOpen}
-				commentId={selectedComment?._id}
-			/>
-
-			<Typography variant="h3">Comentarios</Typography>
-
-			{comments.length > 0 ? (
-				comments.map((comment) => (
+		<Grid container spacing={4}>
+			<Grid xs={9}>
+				<Stack sx={{ gap: 2 }}>
 					<Card
 						variant="outlined"
 						sx={{
 							padding: 2,
-							position: 'relative',
 						}}
-						key={comment._id}
 					>
 						<Typography level="body-sm">
-							Creado por {comment.user.username} -{' '}
-							{new Date(comment.createdAt).toLocaleDateString()}
+							Creado por {post.user.username} -{' '}
+							{new Date(post.createdAt).toLocaleDateString()}
 						</Typography>
-						<Typography level="body1">{comment.content}</Typography>
-						{user?.id === comment.user.id && (
-							<Button
-								variant="plain"
-								color="danger"
-								sx={{
-									position: 'absolute',
-									top: 4,
-									right: 4,
-								}}
-								onClick={() => {
-									setSelectedComment(comment);
-									setIsDeleteModalOpen(true);
-								}}
-							>
-								Eliminar
-							</Button>
-						)}
+
+						<Typography level="h4">{post.title}</Typography>
+						<Typography level="body-sm">{post.description}</Typography>
 					</Card>
-				))
-			) : (
-				<Card
-					variant="outlined"
-					sx={{
-						padding: 2,
-					}}
-				>
-					<Typography level="body-md">
-						Aún no hay comentarios en esta publicación
-					</Typography>
-				</Card>
-			)}
-		</Stack>
+
+					<Button
+						sx={{
+							width: '100%',
+						}}
+						onClick={() => setIsModalOpen(true)}
+					>
+						Publicar comentario
+					</Button>
+					<CreateCommentModal
+						open={isModalOpen}
+						setOpen={setIsModalOpen}
+						postId={postId}
+					/>
+					<DeleteConfirmationModal
+						open={isDeleteModalOpen}
+						setOpen={setIsDeleteModalOpen}
+						commentId={selectedComment?._id}
+					/>
+
+					<Typography variant="h3">Comentarios</Typography>
+
+					{comments.length > 0 ? (
+						comments.map((comment) => (
+							<Card
+								variant="outlined"
+								sx={{
+									padding: 2,
+									position: 'relative',
+								}}
+								key={comment._id}
+							>
+								<Typography level="body-sm">
+									Creado por {comment.user.username} -{' '}
+									{new Date(comment.createdAt).toLocaleDateString()}
+								</Typography>
+								<Typography level="body1">{comment.content}</Typography>
+								{user?.id === comment.user.id && (
+									<Button
+										variant="plain"
+										color="danger"
+										sx={{
+											position: 'absolute',
+											top: 4,
+											right: 4,
+										}}
+										onClick={() => {
+											setSelectedComment(comment);
+											setIsDeleteModalOpen(true);
+										}}
+									>
+										Eliminar
+									</Button>
+								)}
+							</Card>
+						))
+					) : (
+						<Card
+							variant="outlined"
+							sx={{
+								padding: 2,
+							}}
+						>
+							<Typography level="body-md">
+								Aún no hay comentarios en esta publicación
+							</Typography>
+						</Card>
+					)}
+				</Stack>
+			</Grid>
+		</Grid>
 	);
 };
 
