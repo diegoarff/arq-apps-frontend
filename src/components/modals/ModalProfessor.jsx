@@ -9,6 +9,7 @@ import {
 	Stack,
 	Typography,
 } from '@mui/joy';
+import { Badge, ContactMail, ContactPhone } from '@mui/icons-material';
 import { Rating, Star } from '@smastrom/react-rating';
 import { useCreateTeacherRatingMutation } from '../../hooks/queries/teachers';
 import { useParams } from 'react-router-dom';
@@ -33,7 +34,6 @@ const CreateProfesorModal = ({ open, setOpen, teacher }) => {
 		);
 	};
 
-	// Declare it outside your component so it doesn't get re-created
 	const myStyles = {
 		itemShapes: Star,
 		activeFillColor: '#ffb700',
@@ -44,8 +44,23 @@ const CreateProfesorModal = ({ open, setOpen, teacher }) => {
 	return (
 		<Modal open={open} onClose={() => setOpen(false)}>
 			<ModalDialog sx={{ width: '40%' }}>
-				<DialogTitle>Calificar profesor</DialogTitle>
-				<DialogContent>Califica al profesor seleccionado.</DialogContent>
+				<DialogTitle sx={{ marginBottom: '10px' }}>
+					Información del profesor
+				</DialogTitle>
+				<DialogContent mb={1}>
+					<Typography startDecorator={<Badge />}>
+						Nombre: &nbsp; <strong>{teacher?.name}</strong>
+					</Typography>
+					<Typography startDecorator={<ContactMail />}>
+						Correo electrónico: &nbsp; <strong>{teacher?.email}</strong>
+					</Typography>
+					<Typography startDecorator={<ContactPhone />}>
+						Teléfono: &nbsp; <strong>{teacher?.number}</strong>
+					</Typography>
+				</DialogContent>
+				<Typography sx={{ display: 'flex', justifyContent: 'center' }}>
+					Califica al Prof. {teacher?.name}
+				</Typography>
 				<Stack spacing={2}>
 					<Stack direction="row" alignItems="center" spacing={2}>
 						<Box
@@ -68,6 +83,15 @@ const CreateProfesorModal = ({ open, setOpen, teacher }) => {
 							</Typography>
 						</Box>
 					</Stack>
+					<Typography sx={{ display: 'flex', justifyContent: 'center' }}>
+						<Button
+							disabled={createTeacherRatingMutation.isPending || !rating}
+							loading={createTeacherRatingMutation.isPending}
+							onClick={rateTeacher}
+						>
+							Calificar
+						</Button>
+					</Typography>
 					<Box
 						sx={{
 							display: 'flex',
@@ -83,14 +107,7 @@ const CreateProfesorModal = ({ open, setOpen, teacher }) => {
 								setOpen(false);
 							}}
 						>
-							Cancelar
-						</Button>
-						<Button
-							disabled={createTeacherRatingMutation.isPending || !rating}
-							loading={createTeacherRatingMutation.isPending}
-							onClick={rateTeacher}
-						>
-							Calificar
+							Aceptar
 						</Button>
 					</Box>
 				</Stack>
