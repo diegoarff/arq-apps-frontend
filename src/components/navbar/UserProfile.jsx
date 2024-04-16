@@ -1,22 +1,50 @@
-import { Dropdown, MenuButton, Menu, MenuItem } from '@mui/joy';
-import PersonIcon from '@mui/icons-material/Person';
+import {
+	Dropdown,
+	MenuButton,
+	Menu,
+	MenuItem,
+	ListDivider,
+	Typography,
+} from '@mui/joy';
+import {
+	Person,
+	AssignmentInd,
+	ManageAccounts,
+	Logout,
+} from '@mui/icons-material';
 import { useAuthStore } from '../../store/useAuthStore';
-//import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
 	const user = useAuthStore((state) => state.user);
-	//const navigate = useNavigate();
+	const onLogout = useAuthStore((state) => state.onLogout);
+	const navigate = useNavigate();
 
 	return (
 		<>
 			<Dropdown>
-				<MenuButton startDecorator={<PersonIcon />}>
+				<MenuButton startDecorator={<Person />}>
 					{user && user.username}
 				</MenuButton>
 				<Menu>
-					<MenuItem>Perfil</MenuItem>
-					<MenuItem>Panel</MenuItem>
-					<MenuItem>Cerrar sesión</MenuItem>
+					<MenuItem>
+						<AssignmentInd />
+						<Typography>Perfil</Typography>
+					</MenuItem>
+					<MenuItem>
+						<ManageAccounts />
+						<Typography>Panel de administrador</Typography>
+					</MenuItem>
+					<ListDivider />
+					<MenuItem
+						onClick={() => {
+							onLogout();
+							navigate('/auth/login', { replace: true });
+						}}
+					>
+						<Logout />
+						<Typography>Cerrar sesión</Typography>
+					</MenuItem>
 				</Menu>
 			</Dropdown>
 		</>

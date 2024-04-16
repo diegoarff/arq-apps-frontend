@@ -1,13 +1,10 @@
-import { Box, Button, Stack } from '@mui/joy';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { Box, Stack } from '@mui/joy';
 import Searchbar from './Searchbar';
 import UserProfile from './UserProfile';
-import { useAuthStore } from '../../store/useAuthStore';
 import ThemeToggle from '../ThemeToggle';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-	const onLogout = useAuthStore((state) => state.onLogout);
 	const navigate = useNavigate();
 
 	return (
@@ -37,17 +34,6 @@ const Navbar = () => {
 			<Box sx={{ display: 'flex', position: 'absolute', right: 20, gap: 2 }}>
 				<UserProfile />
 				<ThemeToggle />
-				<Button
-					variant="plain"
-					color="danger"
-					size="md"
-					onClick={() => {
-						onLogout();
-						navigate('/auth/login', { replace: true });
-					}}
-				>
-					<LogoutIcon />
-				</Button>
 			</Box>
 		</Stack>
 	);
