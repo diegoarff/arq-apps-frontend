@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import AdminChip from '../components/chips/AdminChip';
 import {
 	Card,
 	Button,
@@ -81,7 +82,8 @@ const PostPage = () => {
 						}}
 					>
 						<Typography level="body-sm">
-							Creado por {post.user.username} -{' '}
+							Creado por {post.user.username}{' '}
+							{post.user.role === 'admin' && <AdminChip />} -{' '}
 							{new Date(post.createdAt).toLocaleDateString()}
 						</Typography>
 
