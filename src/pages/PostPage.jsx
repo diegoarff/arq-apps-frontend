@@ -10,10 +10,16 @@ import {
 	Stack,
 	Typography,
 	Grid,
+	Box,
 } from '@mui/joy';
-import CreateCommentModal from '../components/CreateCommentModal';
+
+import { useForm } from 'react-hook-form';
+import InputField from '../components/forms/InputField';
+
+// import CreateCommentModal from '../components/CreateCommentModal';
 import SkeletonPosts from '../components/skeletons/SkeletonPosts';
 import {
+	useCreateCommentMutation,
 	useDeleteCommentMutation,
 	usePostById,
 	usePostComments,
@@ -26,9 +32,26 @@ const PostPage = () => {
 	const { data: post, status: postStatus } = usePostById(postId);
 	const { data: comments, status: commentsStatus } = usePostComments(postId);
 
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	// const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 	const [selectedComment, setSelectedComment] = useState(null);
+
+	const { control, handleSubmit, watch, reset } = useForm();
+	const content = watch('content');
+
+	const createCommentMutation = useCreateCommentMutation();
+
+	const createComment = async (data) => {
+		createCommentMutation.mutate(
+			{ postId, ...data },
+			{
+				onSuccess: () => {
+					// setIsModalOpen(false);
+					reset();
+				},
+			}
+		);
+	};
 
 	if (postStatus === 'pending' || commentsStatus === 'pending') {
 		return <SkeletonPosts skeletonLength={1} />;
@@ -57,7 +80,7 @@ const PostPage = () => {
 						<Typography level="body-sm">{post.description}</Typography>
 					</Card>
 
-					<Button
+					{/* <Button
 						sx={{
 							width: '100%',
 						}}
@@ -69,7 +92,7 @@ const PostPage = () => {
 						open={isModalOpen}
 						setOpen={setIsModalOpen}
 						postId={postId}
-					/>
+					/> */}
 					<DeleteConfirmationModal
 						open={isDeleteModalOpen}
 						setOpen={setIsDeleteModalOpen}
@@ -77,6 +100,27 @@ const PostPage = () => {
 					/>
 
 					<Typography variant="h3">Comentarios</Typography>
+
+					<form onSubmit={handleSubmit(createComment)}>
+						<Stack direction="row" spacing={1} alignItems="center">
+							<Box flexGrow={1}>
+								<InputField
+									name="content"
+									// label="Comentario"
+									// isTextarea
+									control={control}
+									required
+								/>
+							</Box>
+							<Button
+								type="submit"
+								disabled={content?.length === 0}
+								loading={createCommentMutation.isPending}
+							>
+								<img src="/sendIcon.svg" alt="send" style={{ width: '25px' }} />
+							</Button>
+						</Stack>
+					</form>
 
 					{comments.length > 0 ? (
 						comments.map((comment) => (
