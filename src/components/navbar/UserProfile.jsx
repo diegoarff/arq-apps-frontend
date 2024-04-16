@@ -21,33 +21,34 @@ const UserProfile = () => {
 	const navigate = useNavigate();
 
 	return (
-		<>
-			<Dropdown>
-				<MenuButton startDecorator={<Person />}>
-					{user && user.username}
-				</MenuButton>
-				<Menu>
-					<MenuItem>
-						<AssignmentInd />
-						<Typography>Perfil</Typography>
-					</MenuItem>
+		<Dropdown>
+			<MenuButton startDecorator={<Person />}>
+				{user && user.username}
+			</MenuButton>
+			<Menu>
+				<MenuItem>
+					<AssignmentInd />
+					<Typography>Perfil</Typography>
+				</MenuItem>
+
+				{user && user.role === 'admin' && (
 					<MenuItem>
 						<ManageAccounts />
 						<Typography>Panel de administrador</Typography>
 					</MenuItem>
-					<ListDivider />
-					<MenuItem
-						onClick={() => {
-							onLogout();
-							navigate('/auth/login', { replace: true });
-						}}
-					>
-						<Logout />
-						<Typography>Cerrar sesión</Typography>
-					</MenuItem>
-				</Menu>
-			</Dropdown>
-		</>
+				)}
+				<ListDivider />
+				<MenuItem
+					onClick={() => {
+						onLogout();
+						navigate('/auth/login', { replace: true });
+					}}
+				>
+					<Logout />
+					<Typography>Cerrar sesión</Typography>
+				</MenuItem>
+			</Menu>
+		</Dropdown>
 	);
 };
 
