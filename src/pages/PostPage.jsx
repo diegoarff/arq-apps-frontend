@@ -1,27 +1,13 @@
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import AdminChip from '../components/chips/AdminChip';
-import {
-	Card,
-	Button,
-	DialogContent,
-	DialogTitle,
-	Modal,
-	ModalDialog,
-	Stack,
-	Typography,
-	Grid,
-	Box,
-} from '@mui/joy';
+import { Card, Button, Stack, Typography, Grid, Box } from '@mui/joy';
 
 import { useForm } from 'react-hook-form';
 import InputField from '../components/forms/InputField';
 import Comment from '../components/Comment';
-// import CreateCommentModal from '../components/CreateCommentModal';
 import SkeletonPosts from '../components/skeletons/SkeletonPosts';
 import {
 	useCreateCommentMutation,
-	useDeleteCommentMutation,
 	usePostById,
 	usePostComments,
 } from '../hooks/queries/posts';
@@ -34,10 +20,6 @@ const PostPage = () => {
 	const { data: post, status: postStatus } = usePostById(postId);
 	const { data: comments, status: commentsStatus } = usePostComments(postId);
 
-	// const [isModalOpen, setIsModalOpen] = useState(false);
-	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-	const [selectedComment, setSelectedComment] = useState(null);
-
 	const { control, handleSubmit, watch, reset } = useForm();
 	const content = watch('content');
 
@@ -48,7 +30,6 @@ const PostPage = () => {
 			{ postId, ...data },
 			{
 				onSuccess: () => {
-					// setIsModalOpen(false);
 					reset();
 				},
 			}
@@ -91,39 +72,22 @@ const PostPage = () => {
 						<Typography level="body-sm">{post.description}</Typography>
 					</Card>
 
-					{/* <Button
-						sx={{
-							width: '100%',
-						}}
-						onClick={() => setIsModalOpen(true)}
-					>
-						Publicar comentario
-					</Button>
-					<CreateCommentModal
-						open={isModalOpen}
-						setOpen={setIsModalOpen}
-						postId={postId}
-					/> */}
+					{/* 
 					<DeleteConfirmationModal
 						open={isDeleteModalOpen}
 						setOpen={setIsDeleteModalOpen}
 						commentId={selectedComment?._id}
-					/>
+					/> */}
 
 					<Typography variant="h3">Comentarios</Typography>
 
 					<form onSubmit={handleSubmit(createComment)}>
 						<Stack direction="row" spacing={1} alignItems="center">
 							<Box flexGrow={1}>
-								<InputField
-									name="content"
-									// label="Comentario"
-									// isTextarea
-									control={control}
-									required
-								/>
+								<InputField name="content" control={control} required />
 							</Box>
 							<Button
+								variant="outlined"
 								type="submit"
 								disabled={content?.length === 0}
 								loading={createCommentMutation.isPending}
@@ -135,13 +99,7 @@ const PostPage = () => {
 
 					{comments.length > 0 ? (
 						comments.map((comment) => (
-							<Comment
-								key={comment._id}
-								comment={comment}
-								user={user}
-								setIsDeleteModalOpen={setIsDeleteModalOpen}
-								setSelectedComment={setSelectedComment}
-							/>
+							<Comment key={comment._id} comment={comment} user={user} />
 						))
 					) : (
 						<Card
@@ -162,37 +120,3 @@ const PostPage = () => {
 };
 
 export default PostPage;
-
-const DeleteConfirmationModal = ({ open, setOpen, commentId }) => {
-	const deleteCommentMutation = useDeleteCommentMutation();
-
-	const deleteComment = async () => {
-		deleteCommentMutation.mutate(commentId, {
-			onSuccess: () => {
-				setOpen(false);
-			},
-		});
-	};
-
-	return (
-		<Modal open={open} onClose={() => setOpen(false)}>
-			<ModalDialog>
-				<DialogTitle>Eliminar comentario</DialogTitle>
-				<DialogContent>
-					¿Estás seguro que deseas eliminar este comentario?
-				</DialogContent>
-				<Stack direction="row" justifyContent="flex-end" gap={2}>
-					<Button variant="plain" onClick={() => setOpen(false)}>
-						Cancelar
-					</Button>
-					<Button
-						onClick={deleteComment}
-						loading={deleteCommentMutation.isPending}
-					>
-						Eliminar
-					</Button>
-				</Stack>
-			</ModalDialog>
-		</Modal>
-	);
-};
