@@ -34,12 +34,13 @@ const Comment = ({ comment, user }) => {
 				}}
 				key={comment._id}
 			>
-				<Typography level="body-sm">
+				<Typography level="body-xs">
 					Creado por {comment.user.username}{' '}
 					{comment.user.role === 'admin' && <AdminChip />}-{' '}
 					{new Date(comment.createdAt).toLocaleDateString()}
 				</Typography>
-				<Typography level="body1">{comment.content}</Typography>
+				<Typography level="body-md">{comment.content}</Typography>
+
 				{user?.id === comment.user.id && (
 					<Button
 						variant="plain"
@@ -54,6 +55,7 @@ const Comment = ({ comment, user }) => {
 						<img src="/trashIcon.svg" alt="delete" style={{ width: '25px' }} />
 					</Button>
 				)}
+
 				{user?.role === 'admin' && (
 					<Button
 						variant="plain"

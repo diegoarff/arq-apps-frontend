@@ -49,37 +49,24 @@ const PostPage = () => {
 	return (
 		<Grid container spacing={4}>
 			<Grid xs={12}>
-				<Button onClick={() => navigate(-1)}>
+				<Button color="primary" onClick={() => navigate(-1)}>
 					<img src="/backIcon.svg" alt="back" style={{ width: '25px' }} />
 					Volver
 				</Button>
 			</Grid>
 			<Grid xs={9}>
 				<Stack sx={{ gap: 2 }}>
-					<Card
-						variant="outlined"
-						sx={{
-							padding: 2,
-						}}
-					>
-						<Typography level="body-sm">
-							Creado por {post.user.username}{' '}
-							{post.user.role === 'admin' && <AdminChip />} -{' '}
-							{new Date(post.createdAt).toLocaleDateString()}
-						</Typography>
+					<Typography level="body-sm">
+						Creado por {post.user.username}{' '}
+						{post.user.role === 'admin' && <AdminChip />} -{' '}
+						{new Date(post.createdAt).toLocaleDateString()}
+					</Typography>
 
-						<Typography level="h4">{post.title}</Typography>
-						<Typography level="body-sm">{post.description}</Typography>
-					</Card>
+					<Typography level="h3">{post.title}</Typography>
 
-					{/* 
-					<DeleteConfirmationModal
-						open={isDeleteModalOpen}
-						setOpen={setIsDeleteModalOpen}
-						commentId={selectedComment?._id}
-					/> */}
+					<Typography level="body-lg">{post.description}</Typography>
 
-					<Typography variant="h3">Comentarios</Typography>
+					<Typography level="title-lg">Comentarios</Typography>
 
 					<form onSubmit={handleSubmit(createComment)}>
 						<Stack direction="row" spacing={1} alignItems="center">
