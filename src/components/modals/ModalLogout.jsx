@@ -9,6 +9,7 @@ import {
 	ListDivider,
 	Modal,
 	ModalDialog,
+	ModalClose,
 	Stack,
 	Typography,
 } from '@mui/joy';
@@ -29,6 +30,7 @@ const ModalLogout = ({ open, setOpen }) => {
 	return (
 		<Modal open={open} onClose={() => setOpen(false)}>
 			<ModalDialog sx={{ width: '40%' }}>
+				<ModalClose />
 				<DialogTitle sx={{ marginBottom: '10px' }}>Cerrar sesión</DialogTitle>
 				<DialogContent mb={1}>
 					<Typography>¿Estás seguro que deseas cerrar sesión?</Typography>
