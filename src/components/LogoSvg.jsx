@@ -1,7 +1,7 @@
 import themes from '../themes';
 import Typography from '@mui/material/Typography';
 
-const LogoSvg = () => {
+const LogoSvg = ({ small = false }) => {
 	const localeTheme = themes[import.meta.env.VITE_LOCALE] ?? themes['default'];
 
 	return (
@@ -16,9 +16,9 @@ const LogoSvg = () => {
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				version="1.0"
-				width="130.000000pt"
+				width={small ? '70pt' : '130.000000pt'}
 				height="90.000000pt"
-				viewBox="0 0 1890.000000 1417.000000"
+				viewBox={`0 0 1890.000000 ${small ? '1917' : '1417'}`}
 				preserveAspectRatio="xMidYMid meet"
 			>
 				<g
@@ -41,7 +41,7 @@ const LogoSvg = () => {
 				</g>
 			</svg>
 
-			<Typography variant="h4">CodeCampus</Typography>
+			{!small && <Typography variant="h4">CodeCampus</Typography>}
 		</div>
 	);
 };

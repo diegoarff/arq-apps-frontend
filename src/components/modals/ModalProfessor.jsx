@@ -4,6 +4,7 @@ import {
 	Button,
 	DialogContent,
 	DialogTitle,
+	ListDivider,
 	Modal,
 	ModalDialog,
 	Stack,
@@ -19,7 +20,6 @@ const ratingValues = ['Muy malo', 'Malo', 'Regular', 'Bueno', 'Muy bueno'];
 const CreateProfesorModal = ({ open, setOpen, teacher }) => {
 	const { subjectId } = useParams();
 	const [rating, setRating] = useState(0);
-	const [hoverRating, setHoverRating] = useState(0);
 
 	const createTeacherRatingMutation = useCreateTeacherRatingMutation();
 
@@ -47,51 +47,43 @@ const CreateProfesorModal = ({ open, setOpen, teacher }) => {
 				<DialogTitle sx={{ marginBottom: '10px' }}>
 					Información del profesor
 				</DialogTitle>
-				<DialogContent mb={1}>
-					<Typography startDecorator={<Badge />}>
-						Nombre: &nbsp; <strong>{teacher?.name}</strong>
-					</Typography>
-					<Typography startDecorator={<ContactMail />}>
-						Correo electrónico: &nbsp; <strong>{teacher?.email}</strong>
-					</Typography>
-					<Typography startDecorator={<ContactPhone />}>
-						Teléfono: &nbsp; <strong>{teacher?.number}</strong>
-					</Typography>
-				</DialogContent>
-				<Typography sx={{ display: 'flex', justifyContent: 'center' }}>
-					Califica al Prof. {teacher?.name}
-				</Typography>
-				<Stack spacing={2}>
-					<Stack direction="row" alignItems="center" spacing={2}>
-						<Box
-							flex={2}
-							display="flex"
-							justifyContent="center"
-							alignItems="center"
-						>
-							<Rating
-								style={{ maxWidth: 300 }}
-								value={rating}
-								onChange={setRating}
-								onHoverChange={setHoverRating}
-								itemStyles={myStyles}
-							/>
-						</Box>
-						<Box flex={1}>
-							<Typography>
-								{ratingValues[hoverRating ? hoverRating - 1 : rating - 1]}
-							</Typography>
-						</Box>
+				<DialogContent>
+					<Stack py={2} gap={1}>
+						<Typography startDecorator={<Badge />}>
+							Nombre: &nbsp; <strong>{teacher?.name}</strong>
+						</Typography>
+						<Typography startDecorator={<ContactMail />}>
+							Correo electrónico: &nbsp; <strong>{teacher?.email}</strong>
+						</Typography>
+						<Typography startDecorator={<ContactPhone />}>
+							Teléfono: &nbsp; <strong>{teacher?.number}</strong>
+						</Typography>
 					</Stack>
-					<Typography sx={{ display: 'flex', justifyContent: 'center' }}>
-						<Button
-							disabled={createTeacherRatingMutation.isPending || !rating}
-							loading={createTeacherRatingMutation.isPending}
-							onClick={rateTeacher}
-						>
-							Calificar
-						</Button>
-					</Typography>
+
+					<ListDivider />
+
+					<Stack py={2} gap={2} alignItems="center" justifyContent="center">
+						<Typography sx={{ display: 'flex', justifyContent: 'center' }}>
+							Califica al Prof. {teacher?.name} ({ratingValues[rating - 1]})
+						</Typography>
+
+						<Rating
+							style={{ maxWidth: 300 }}
+							value={rating}
+							onChange={setRating}
+							itemStyles={myStyles}
+						/>
+						<Typography sx={{ display: 'flex', justifyContent: 'center' }}>
+							<Button
+								disabled={createTeacherRatingMutation.isPending || !rating}
+								loading={createTeacherRatingMutation.isPending}
+								onClick={rateTeacher}
+							>
+								Calificar
+							</Button>
+						</Typography>
+					</Stack>
+
 					<Box
 						sx={{
 							display: 'flex',
@@ -110,7 +102,7 @@ const CreateProfesorModal = ({ open, setOpen, teacher }) => {
 							Aceptar
 						</Button>
 					</Box>
-				</Stack>
+				</DialogContent>
 			</ModalDialog>
 		</Modal>
 	);

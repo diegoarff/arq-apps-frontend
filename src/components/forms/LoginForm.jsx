@@ -24,6 +24,8 @@ const LoginForm = () => {
 		} catch (error) {
 			openSnackbar(error, 'danger');
 			console.error(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 

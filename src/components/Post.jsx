@@ -1,46 +1,50 @@
-import { Card, Typography, Button } from '@mui/joy';
-import { Link } from 'react-router-dom';
+import { Card, Typography, Button, Box } from '@mui/joy';
+import { Link, useNavigate } from 'react-router-dom';
 import AdminChip from './chips/AdminChip';
+import { useAuthStore } from '../store/useAuthStore';
+import { Delete } from '@mui/icons-material';
 
-const Post = ({
-	user,
-	post,
+const Post = ({ post, setIsDeleteModalOpen, setSelectedComment }) => {
+	const navigate = useNavigate();
+	const user = useAuthStore((state) => state.user);
 
-	setIsDeleteModalOpen,
-	setSelectedComment,
-}) => {
 	return (
 		<Link
 			to={`/post/${post._id}`}
 			style={{ textDecoration: 'none', color: 'inherit' }}
 		>
-			<Card variant="outlined" sx={{ padding: 2 }}>
-				<Typography level="body-sm">
-					Creado por {post.user.username}{' '}
-					{post.user.role === 'admin' && <AdminChip />} -{' '}
-					{new Date(post.createdAt).toLocaleDateString()}
-					{user?.id === post.user.id && (
-						<Button
-							variant="plain"
-							color="danger"
-							sx={{
-								position: 'absolute',
-								top: 4,
-								right: 4,
-							}}
-							onClick={() => {
-								setSelectedComment(post);
-								setIsDeleteModalOpen(true);
-							}}
-						>
-							<img
-								src="/trashIcon.svg"
-								alt="delete"
-								style={{ width: '25px' }}
-							/>
-						</Button>
-					)}
-				</Typography>
+			<Card variant={post.deleted ? 'soft' : 'outlined'} sx={{ padding: 2 }}>
+				<Box
+					onClick={(e) => {
+						e.preventDefault();
+						navigate(`/users/${post.user.id}`);
+					}}
+					sx={{ cursor: 'pointer' }}
+				>
+					<Typography level="body-sm">
+						Creado por {post.user.username}{' '}
+						{post.user.role === 'admin' && <AdminChip />} -{' '}
+						{new Date(post.createdAt).toLocaleDateString()}
+					</Typography>
+				</Box>
+
+				{user?.id === post.user.id && (
+					<Button
+						variant="plain"
+						color="danger"
+						sx={{
+							position: 'absolute',
+							top: 5,
+							right: 5,
+						}}
+						onClick={() => {
+							setSelectedComment(post);
+							setIsDeleteModalOpen(true);
+						}}
+					>
+						<Delete />
+					</Button>
+				)}
 
 				<Typography level="h4">{post.title}</Typography>
 				<Typography level="body-sm">{post.description}</Typography>

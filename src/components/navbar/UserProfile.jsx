@@ -15,6 +15,7 @@ import {
 import { useAuthStore } from '../../store/useAuthStore';
 import { useState } from 'react';
 import ModalLogout from '../modals/ModalLogout';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfile = () => {
 	const [openLogoutModal, setOpenLogoutModal] = useState(false);
@@ -24,6 +25,7 @@ const UserProfile = () => {
 	};
 
 	const user = useAuthStore((state) => state.user);
+	const navigate = useNavigate();
 
 	return (
 		<>
@@ -32,7 +34,7 @@ const UserProfile = () => {
 					{user && user.username}
 				</MenuButton>
 				<Menu>
-					<MenuItem>
+					<MenuItem onClick={() => navigate('/users/profile')}>
 						<AssignmentInd />
 						<Typography>Perfil</Typography>
 					</MenuItem>

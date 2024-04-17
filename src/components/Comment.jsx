@@ -9,10 +9,17 @@ import {
 	DialogTitle,
 	DialogContent,
 	Stack,
+	Box,
 } from '@mui/joy';
+import { Delete, DeleteForever } from '@mui/icons-material';
 import AdminChip from './chips/AdminChip';
+import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '../store/useAuthStore';
 
-const Comment = ({ comment, user }) => {
+const Comment = ({ comment }) => {
+	const navigate = useNavigate();
+	const user = useAuthStore((state) => state.user);
+
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 	const deleteCommentMutation = useDeleteCommentMutation();
 
@@ -34,11 +41,19 @@ const Comment = ({ comment, user }) => {
 				}}
 				key={comment._id}
 			>
-				<Typography level="body-xs">
-					Creado por {comment.user.username}{' '}
-					{comment.user.role === 'admin' && <AdminChip />}-{' '}
-					{new Date(comment.createdAt).toLocaleDateString()}
-				</Typography>
+				<Box
+					onClick={(e) => {
+						e.preventDefault();
+						navigate(`/users/${comment.user.id}`);
+					}}
+					sx={{ cursor: 'pointer' }}
+				>
+					<Typography level="body-sm">
+						Creado por {comment.user.username}{' '}
+						{comment.user.role === 'admin' && <AdminChip />} -{' '}
+						{new Date(comment.createdAt).toLocaleDateString()}
+					</Typography>
+				</Box>
 				<Typography level="body-md">{comment.content}</Typography>
 
 				{user?.id === comment.user.id && (
@@ -47,32 +62,27 @@ const Comment = ({ comment, user }) => {
 						color="danger"
 						sx={{
 							position: 'absolute',
-							top: 4,
-							right: 4,
+							top: 5,
+							right: 5,
 						}}
 						onClick={() => setIsDeleteModalOpen(true)}
 					>
-						<img src="/trashIcon.svg" alt="delete" style={{ width: '25px' }} />
+						<Delete />
 					</Button>
 				)}
 
 				{user?.role === 'admin' && (
 					<Button
-						variant="plain"
-						color="warning"
+						variant="outlined"
+						color="danger"
 						sx={{
 							position: 'absolute',
-							top: 45,
-							right: 4,
+							bottom: 5,
+							right: 5,
 						}}
 						onClick={() => setIsDeleteModalOpen(true)}
 					>
-						<img
-							src="/alertIcon.svg"
-							alt="delete"
-							style={{ width: '15px', margin: '5px' }}
-						/>
-						Eliminar como Admin
+						<DeleteForever />
 					</Button>
 				)}
 			</Card>
