@@ -15,7 +15,7 @@ const Comment = ({
 		key={comment._id}
 	>
 		<Typography level="body-sm">
-			Creado por {comment.user.username} -{' '}
+			Creado por {comment.user.id} -{' '}
 			{new Date(comment.createdAt).toLocaleDateString()}
 		</Typography>
 		<Typography level="body1">{comment.content}</Typography>
