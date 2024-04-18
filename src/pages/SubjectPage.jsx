@@ -4,9 +4,10 @@ import { Box, Button, Grid, Skeleton, Typography, Stack } from '@mui/joy';
 import AddIcon from '@mui/icons-material/Add';
 import Post from '../components/Post';
 import CreatePostModal from '../components/CreatePostModal';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import SkeletonPosts from '../components/skeletons/SkeletonPosts';
 import SidebarProfessor from '../components/layout/SidebarProfessor';
+import { useAuthStore } from '../store/useAuthStore';
 
 const SubjectPage = () => {
 	const { subjectId } = useParams();
@@ -43,10 +44,16 @@ const SubjectPage = () => {
 };
 
 const SubjectPosts = ({ subjectId }) => {
+	const user = useAuthStore((state) => state.user);
 	const { data, status } = useSubjectPosts(subjectId);
 
+	const nonDeletedPosts = useMemo(() => {
+		if (data) return data.filter((post) => !post.deleted);
+		return [];
+	}, [data]);
+
 	if (status === 'pending') {
-		return <SkeletonPosts />;
+		return <SkeletonPosts gridXs={12} skeletonLength={3} />;
 	}
 
 	if (status === 'error') {
@@ -56,7 +63,11 @@ const SubjectPosts = ({ subjectId }) => {
 	return (
 		<Stack sx={{ gap: 3 }}>
 			{data.length > 0 ? (
-				data.map((post) => <Post post={post} key={post._id} />)
+				<>
+					{user?.role === 'admin'
+						? data.map((post) => <Post key={post.id} post={post} />)
+						: nonDeletedPosts.map((post) => <Post key={post.id} post={post} />)}
+				</>
 			) : (
 				<Typography level="body-md">
 					Aún no hay publicaciones en esta materia

@@ -4,22 +4,31 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import InputField from './InputField';
 import { useGlobalStore } from '../../store/useGlobalStore';
+import { useState } from 'react';
 
 const LoginForm = () => {
 	const navigate = useNavigate();
 	const onLogin = useAuthStore((state) => state.onLogin);
 	const openSnackbar = useGlobalStore((state) => state.openSnackbar);
 
+	const [loading, setLoading] = useState(false);
+
 	const { control, handleSubmit } = useForm();
 
 	const submitHandler = async (data) => {
 		try {
+			setLoading(true);
 			await onLogin(data);
 			openSnackbar('Sesión iniciada', 'neutral');
 			navigate('/', { replace: true });
 		} catch (error) {
 			openSnackbar(error, 'danger');
-			console.error(error);
+			console.error(error.message);
+			if (error.message.includes('banned')) {
+				navigate('/banned');
+			}
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -56,7 +65,9 @@ const LoginForm = () => {
 						},
 					}}
 				/>
-				<Button type="submit">Iniciar sesión</Button>
+				<Button type="submit" disabled={loading} loading={loading}>
+					Iniciar sesión
+				</Button>
 			</Stack>
 		</form>
 	);

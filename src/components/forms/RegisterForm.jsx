@@ -6,6 +6,7 @@ import InputField from './InputField';
 import { useUniversities } from '../../hooks/queries/universities';
 import FormSelect from './FormSelect';
 import { useGlobalStore } from '../../store/useGlobalStore';
+import { useState } from 'react';
 
 const RegisterForm = () => {
 	const navigate = useNavigate();
@@ -14,16 +15,21 @@ const RegisterForm = () => {
 	const { control, handleSubmit, watch } = useForm();
 	const password = watch('password');
 
+	const [loading, setLoading] = useState(false);
+
 	const { data: universities, isPending } = useUniversities();
 
 	const submitHandler = async (data) => {
 		try {
+			setLoading(true);
 			await onRegister(data);
 			openSnackbar('Cuenta creada exitosamente', 'neutral');
 			navigate('/auth/login', { replace: true });
 		} catch (error) {
 			openSnackbar(error, 'danger');
 			console.error(error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -89,7 +95,7 @@ const RegisterForm = () => {
 						))}
 				</FormSelect>
 
-				<Button type="submit" disabled={isPending}>
+				<Button type="submit" loading={loading} disabled={isPending || loading}>
 					Registrarse
 				</Button>
 			</Stack>

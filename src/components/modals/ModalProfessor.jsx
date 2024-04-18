@@ -4,11 +4,13 @@ import {
 	Button,
 	DialogContent,
 	DialogTitle,
+	ListDivider,
 	Modal,
 	ModalDialog,
 	Stack,
 	Typography,
 } from '@mui/joy';
+import { Badge, ContactMail, ContactPhone } from '@mui/icons-material';
 import { Rating, Star } from '@smastrom/react-rating';
 import { useCreateTeacherRatingMutation } from '../../hooks/queries/teachers';
 import { useParams } from 'react-router-dom';
@@ -18,7 +20,6 @@ const ratingValues = ['Muy malo', 'Malo', 'Regular', 'Bueno', 'Muy bueno'];
 const CreateProfesorModal = ({ open, setOpen, teacher }) => {
 	const { subjectId } = useParams();
 	const [rating, setRating] = useState(0);
-	const [hoverRating, setHoverRating] = useState(0);
 
 	const createTeacherRatingMutation = useCreateTeacherRatingMutation();
 
@@ -33,7 +34,6 @@ const CreateProfesorModal = ({ open, setOpen, teacher }) => {
 		);
 	};
 
-	// Declare it outside your component so it doesn't get re-created
 	const myStyles = {
 		itemShapes: Star,
 		activeFillColor: '#ffb700',
@@ -44,30 +44,46 @@ const CreateProfesorModal = ({ open, setOpen, teacher }) => {
 	return (
 		<Modal open={open} onClose={() => setOpen(false)}>
 			<ModalDialog sx={{ width: '40%' }}>
-				<DialogTitle>Calificar profesor</DialogTitle>
-				<DialogContent>Califica al profesor seleccionado.</DialogContent>
-				<Stack spacing={2}>
-					<Stack direction="row" alignItems="center" spacing={2}>
-						<Box
-							flex={2}
-							display="flex"
-							justifyContent="center"
-							alignItems="center"
-						>
-							<Rating
-								style={{ maxWidth: 300 }}
-								value={rating}
-								onChange={setRating}
-								onHoverChange={setHoverRating}
-								itemStyles={myStyles}
-							/>
-						</Box>
-						<Box flex={1}>
-							<Typography>
-								{ratingValues[hoverRating ? hoverRating - 1 : rating - 1]}
-							</Typography>
-						</Box>
+				<DialogTitle sx={{ marginBottom: '10px' }}>
+					Información del profesor
+				</DialogTitle>
+				<DialogContent>
+					<Stack py={2} gap={1}>
+						<Typography startDecorator={<Badge />}>
+							Nombre: &nbsp; <strong>{teacher?.name}</strong>
+						</Typography>
+						<Typography startDecorator={<ContactMail />}>
+							Correo electrónico: &nbsp; <strong>{teacher?.email}</strong>
+						</Typography>
+						<Typography startDecorator={<ContactPhone />}>
+							Teléfono: &nbsp; <strong>{teacher?.number}</strong>
+						</Typography>
 					</Stack>
+
+					<ListDivider />
+
+					<Stack py={2} gap={2} alignItems="center" justifyContent="center">
+						<Typography sx={{ display: 'flex', justifyContent: 'center' }}>
+							Califica al Prof. {teacher?.name} ({ratingValues[rating - 1]})
+						</Typography>
+
+						<Rating
+							style={{ maxWidth: 300 }}
+							value={rating}
+							onChange={setRating}
+							itemStyles={myStyles}
+						/>
+						<Typography sx={{ display: 'flex', justifyContent: 'center' }}>
+							<Button
+								disabled={createTeacherRatingMutation.isPending || !rating}
+								loading={createTeacherRatingMutation.isPending}
+								onClick={rateTeacher}
+							>
+								Calificar
+							</Button>
+						</Typography>
+					</Stack>
+
 					<Box
 						sx={{
 							display: 'flex',
@@ -83,17 +99,10 @@ const CreateProfesorModal = ({ open, setOpen, teacher }) => {
 								setOpen(false);
 							}}
 						>
-							Cancelar
-						</Button>
-						<Button
-							disabled={createTeacherRatingMutation.isPending || !rating}
-							loading={createTeacherRatingMutation.isPending}
-							onClick={rateTeacher}
-						>
-							Calificar
+							Aceptar
 						</Button>
 					</Box>
-				</Stack>
+				</DialogContent>
 			</ModalDialog>
 		</Modal>
 	);

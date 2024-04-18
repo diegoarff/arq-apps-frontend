@@ -1,10 +1,13 @@
 import {
 	getPost,
+	deletePost,
+	deletePostAsAdmin,
 	getPostComments,
 	createComment,
 	deleteComment,
 } from '../../api/posts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useGlobalStore } from '../../store/useGlobalStore';
 
 export const usePostById = (postId) => {
 	return useQuery({
@@ -18,6 +21,34 @@ export const usePostComments = (postId) => {
 		queryKey: ['posts', postId, 'comments'],
 		queryFn: () => getPostComments(postId),
 		enabled: !!postId,
+	});
+};
+
+export const useDeletePostMutation = (postId) => {
+	const queryClient = useQueryClient();
+	const openSnackbar = useGlobalStore((state) => state.openSnackbar);
+	return useMutation({
+		mutationFn: () => deletePost(postId),
+		onSuccess: () => {
+			queryClient.invalidateQueries('posts');
+			openSnackbar('Post eliminado');
+		},
+		onError: (error) => {
+			console.log('🚀 ~ useDeletePostMutation ~ error:', error);
+		},
+	});
+};
+
+export const useDeletePostAsAdminMutation = (postId) => {
+	const queryClient = useQueryClient();
+	return useMutation({
+		mutationFn: () => deletePostAsAdmin(postId),
+		onSuccess: () => {
+			queryClient.invalidateQueries('posts');
+		},
+		onError: (error) => {
+			console.log('🚀 ~ useDeletePostAsAdminMutation ~ error:', error);
+		},
 	});
 };
 

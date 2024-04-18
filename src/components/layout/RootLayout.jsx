@@ -3,12 +3,22 @@ import Navbar from '../navbar/Navbar';
 import Sidebar from './Sidebar';
 import { Box, Stack } from '@mui/joy';
 import { useAuthStore } from '../../store/useAuthStore';
+import { useUserProfile } from '../../hooks/queries/users';
+import SpinnerLoader from '../loaders/SpinnerLoader';
 
 const RootLayout = () => {
 	const user = useAuthStore((state) => state.user);
+	const { data, isPending } = useUserProfile(user?.id);
+	console.log('🚀 ~ RootLayout ~ data:', data);
 
 	if (!user) {
 		return <Navigate to="/auth/login" replace />;
+	}
+
+	if (isPending) return <SpinnerLoader />;
+
+	if (data && data[0].banned) {
+		return <Navigate to="/banned" replace />;
 	}
 
 	return (

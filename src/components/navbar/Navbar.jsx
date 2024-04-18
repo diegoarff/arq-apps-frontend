@@ -1,13 +1,10 @@
-import { Box, Button, Stack } from '@mui/joy';
-import LogoutIcon from '@mui/icons-material/Logout';
-import Searchbar from './Searchbar';
+import { Box, Stack, Typography } from '@mui/joy';
 import UserProfile from './UserProfile';
-import { useAuthStore } from '../../store/useAuthStore';
 import ThemeToggle from '../ThemeToggle';
+import LogoSvg from '../LogoSvg';
 import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-	const onLogout = useAuthStore((state) => state.onLogout);
 	const navigate = useNavigate();
 
 	return (
@@ -24,30 +21,25 @@ const Navbar = () => {
 				minHeight: 64,
 			}}
 		>
-			<Searchbar />
-
-			<img
-				src="/Logo-cut.png"
-				alt="CodeCampus"
-				style={{ position: 'absolute', left: 20, width: 60, cursor: 'pointer' }}
+			<div
+				style={{
+					position: 'absolute',
+					left: 20,
+					cursor: 'pointer',
+					justifyContent: 'center',
+					alignItems: 'center',
+					display: 'flex',
+				}}
 				onClick={() => {
 					navigate('/');
 				}}
-			/>
+			>
+				<LogoSvg small />
+				<Typography level="title-lg">Code Campus</Typography>
+			</div>
 			<Box sx={{ display: 'flex', position: 'absolute', right: 20, gap: 2 }}>
 				<UserProfile />
 				<ThemeToggle />
-				<Button
-					variant="plain"
-					color="danger"
-					size="md"
-					onClick={() => {
-						onLogout();
-						navigate('/auth/login', { replace: true });
-					}}
-				>
-					<LogoutIcon />
-				</Button>
 			</Box>
 		</Stack>
 	);
