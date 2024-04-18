@@ -1,12 +1,9 @@
-import { Card, Typography, Button, Box } from '@mui/joy';
+import { Card, Typography, Box } from '@mui/joy';
 import { Link, useNavigate } from 'react-router-dom';
 import AdminChip from './chips/AdminChip';
-import { useAuthStore } from '../store/useAuthStore';
-import { Delete } from '@mui/icons-material';
 
-const Post = ({ post, setIsDeleteModalOpen, setSelectedComment }) => {
+const Post = ({ post }) => {
 	const navigate = useNavigate();
-	const user = useAuthStore((state) => state.user);
 
 	return (
 		<Link
@@ -27,24 +24,6 @@ const Post = ({ post, setIsDeleteModalOpen, setSelectedComment }) => {
 						{new Date(post.createdAt).toLocaleDateString()}
 					</Typography>
 				</Box>
-
-				{user?.id === post.user.id && (
-					<Button
-						variant="plain"
-						color="danger"
-						sx={{
-							position: 'absolute',
-							top: 5,
-							right: 5,
-						}}
-						onClick={() => {
-							setSelectedComment(post);
-							setIsDeleteModalOpen(true);
-						}}
-					>
-						<Delete />
-					</Button>
-				)}
 
 				<Typography level="h4">{post.title}</Typography>
 				<Typography level="body-sm">{post.description}</Typography>

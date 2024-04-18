@@ -10,3 +10,12 @@ export const getUserProfile = async (userId) => {
 		);
 	}
 };
+
+export const banUser = async (userId) => {
+	try {
+		const response = await api.put(`/users/ban/${userId}`);
+		return response.data.data;
+	} catch (error) {
+		throw new Error(`Error banning user: ${error.response.data.message}`);
+	}
+};

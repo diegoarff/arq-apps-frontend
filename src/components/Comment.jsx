@@ -11,7 +11,7 @@ import {
 	Stack,
 	Box,
 } from '@mui/joy';
-import { Delete, DeleteForever } from '@mui/icons-material';
+import { Delete } from '@mui/icons-material';
 import AdminChip from './chips/AdminChip';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/useAuthStore';
@@ -68,21 +68,6 @@ const Comment = ({ comment }) => {
 						onClick={() => setIsDeleteModalOpen(true)}
 					>
 						<Delete />
-					</Button>
-				)}
-
-				{user?.role === 'admin' && (
-					<Button
-						variant="outlined"
-						color="danger"
-						sx={{
-							position: 'absolute',
-							bottom: 5,
-							right: 5,
-						}}
-						onClick={() => setIsDeleteModalOpen(true)}
-					>
-						<DeleteForever />
 					</Button>
 				)}
 			</Card>

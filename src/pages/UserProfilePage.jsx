@@ -1,14 +1,19 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { useUserProfile } from '../hooks/queries/users';
+import { useBanUserMutation, useUserProfile } from '../hooks/queries/users';
 import SpinnerLoader from '../components/loaders/SpinnerLoader';
 import { Box, Button, Stack, Typography } from '@mui/joy';
-import { ArrowBack } from '@mui/icons-material';
+import { ArrowBack, RemoveCircle } from '@mui/icons-material';
 import AdminChip from '../components/chips/AdminChip';
+import { useAuthStore } from '../store/useAuthStore';
 
 const UserProfilePage = () => {
+	const authUser = useAuthStore((state) => state.user);
 	const { userId } = useParams();
 	const navigate = useNavigate();
+
+	const { mutate: banUser, isPending } = useBanUserMutation(userId);
 	const { data, status, error } = useUserProfile(userId);
+	const user = data && data[0];
 
 	if (status === 'pending') {
 		return <SpinnerLoader />;
@@ -17,6 +22,7 @@ const UserProfilePage = () => {
 	if (status === 'error') {
 		throw new Error('Error al intentar obtener los datos: ' + error.message);
 	}
+
 	return (
 		<Stack>
 			<Box>
@@ -29,10 +35,6 @@ const UserProfilePage = () => {
 				</Button>
 			</Box>
 
-			{/* <Typography>UserProfilePage - userId: {userId}</Typography> */}
-
-			{/* <Typography>{JSON.stringify(data)}</Typography> */}
-
 			<Box
 				sx={{
 					display: 'flex',
@@ -42,28 +44,38 @@ const UserProfilePage = () => {
 					padding: 2,
 				}}
 			>
-				<Typography level="h1" sx={{ marginBottom: 2 }}>
+				<Typography level="h1" sx={{ my: 2 }}>
 					Perfil de Usuario
 				</Typography>
 
 				<Typography level="body-lg" sx={{ marginBottom: 1 }}>
-					Username: <Typography level="h3">{data[0]?.username} </Typography>
-					{data[0]?.role === 'admin' && <AdminChip />}
+					Username: <Typography level="h4">{user.username} </Typography>
+					{user.role === 'admin' && <AdminChip />}
 				</Typography>
 
 				<Typography level="body-lg" sx={{ marginBottom: 1 }}>
-					Cuenta creada el:
-					<Typography sx={{ marginLeft: 1, fontWeight: 'bold' }}>
-						{new Date(data[0]?.createdAt).toLocaleDateString()}
+					Cuenta creada el:{' '}
+					<Typography level="h4">
+						{new Date(user.createdAt).toLocaleDateString()}
 					</Typography>
 				</Typography>
 
 				<Typography level="body-lg">
-					Posts:
-					<Typography sx={{ marginLeft: 1, fontWeight: 'bold' }}>
-						{data[0]?.numberOfPosts}
-					</Typography>
+					Posts creados:{' '}
+					<Typography level="h4">{user.numberOfPosts}</Typography>
 				</Typography>
+
+				{authUser?.role === 'admin' && (
+					<Button
+						variant={user.banned ? 'soft' : 'solid'}
+						onClick={banUser}
+						startDecorator={<RemoveCircle />}
+						loading={isPending}
+						disabled={isPending}
+					>
+						{user.banned ? 'Desbanear' : 'Banear'}
+					</Button>
+				)}
 			</Box>
 		</Stack>
 	);

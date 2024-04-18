@@ -1,5 +1,4 @@
-import { Box, Stack } from '@mui/joy';
-import Searchbar from './Searchbar';
+import { Box, Stack, Typography } from '@mui/joy';
 import UserProfile from './UserProfile';
 import ThemeToggle from '../ThemeToggle';
 import LogoSvg from '../LogoSvg';
@@ -22,15 +21,21 @@ const Navbar = () => {
 				minHeight: 64,
 			}}
 		>
-			<Searchbar />
-
 			<div
-				style={{ position: 'absolute', left: 20, width: 60, cursor: 'pointer' }}
+				style={{
+					position: 'absolute',
+					left: 20,
+					cursor: 'pointer',
+					justifyContent: 'center',
+					alignItems: 'center',
+					display: 'flex',
+				}}
 				onClick={() => {
 					navigate('/');
 				}}
 			>
 				<LogoSvg small />
+				<Typography level="title-lg">Code Campus</Typography>
 			</div>
 			<Box sx={{ display: 'flex', position: 'absolute', right: 20, gap: 2 }}>
 				<UserProfile />
