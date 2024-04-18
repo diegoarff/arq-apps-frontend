@@ -1,8 +1,10 @@
 import { Card, Typography, Box } from '@mui/joy';
 import { Link, useNavigate } from 'react-router-dom';
 import AdminChip from './chips/AdminChip';
+import { useAuthStore } from '../store/useAuthStore';
 
 const Post = ({ post }) => {
+	const user = useAuthStore((state) => state.user);
 	const navigate = useNavigate();
 
 	return (
@@ -14,7 +16,12 @@ const Post = ({ post }) => {
 				<Box
 					onClick={(e) => {
 						e.preventDefault();
-						navigate(`/users/${post.user.id}`);
+
+						if (user?.id === post.user.id) {
+							navigate(`/users/profile`);
+						} else {
+							navigate(`/users/${post.user.id}`);
+						}
 					}}
 					sx={{ cursor: 'pointer' }}
 				>

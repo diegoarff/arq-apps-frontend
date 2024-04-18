@@ -127,7 +127,13 @@ const PostPage = () => {
 						)}
 
 						<Box
-							onClick={() => navigate(`/users/${post.user.id}`)}
+							onClick={() => {
+								if (user?.id === post.user.id) {
+									navigate(`/users/profile`);
+								} else {
+									navigate(`/users/${post.user.id}`);
+								}
+							}}
 							sx={{ cursor: 'pointer' }}
 						>
 							<Typography level="body-sm">

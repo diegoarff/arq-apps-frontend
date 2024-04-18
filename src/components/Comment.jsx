@@ -44,7 +44,11 @@ const Comment = ({ comment }) => {
 				<Box
 					onClick={(e) => {
 						e.preventDefault();
-						navigate(`/users/${comment.user.id}`);
+						if (user?.id === comment.user.id) {
+							navigate(`/users/profile`);
+						} else {
+							navigate(`/users/${comment.user.id}`);
+						}
 					}}
 					sx={{ cursor: 'pointer' }}
 				>
