@@ -5,7 +5,7 @@ const SpinnerLoader = () => {
 	return (
 		<Box
 			sx={{
-				height: '100%',
+				height: '100dvh',
 				display: 'flex',
 				justifyContent: 'center',
 				alignItems: 'center',

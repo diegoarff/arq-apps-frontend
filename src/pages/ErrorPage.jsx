@@ -1,5 +1,6 @@
 import { Box, Button, Typography } from '@mui/joy';
 import { useNavigate, useRouteError } from 'react-router-dom';
+import { useAuthStore } from '../store/useAuthStore';
 
 const ErrorPage = () => {
 	const error = useRouteError();
@@ -7,10 +8,12 @@ const ErrorPage = () => {
 	const handleGoHome = () => {
 		navigate('/');
 	};
+	const onLogout = useAuthStore((state) => state.onLogout);
 
 	const handleRetry = () => {
 		window.location.reload();
 	};
+
 	return (
 		<Box
 			sx={{
@@ -30,11 +33,19 @@ const ErrorPage = () => {
 			<Typography level="body-md" fontStyle="italic">
 				{error.status === 404 ? error.data : error.message}
 			</Typography>
-			{error.status === 404 ? (
-				<Button onClick={handleGoHome}>Ir a la página principal</Button>
-			) : (
-				<Button onClick={handleRetry}>Reintentar</Button>
-			)}
+			<Button onClick={handleRetry}>Reintentar</Button>
+			<Button variant="soft" onClick={handleGoHome}>
+				Ir a la página principal
+			</Button>
+			<Button
+				variant="plain"
+				onClick={() => {
+					onLogout();
+					navigate('/');
+				}}
+			>
+				Cerrar sesión
+			</Button>
 		</Box>
 	);
 };

@@ -10,6 +10,7 @@ import ErrorPage from '../pages/ErrorPage';
 import PostPage from '../pages/PostPage';
 import MyProfilePage from '../pages/MyProfilePage';
 import UserProfilePage from '../pages/UserProfilePage';
+import BannedPage from '../pages/BannedPage';
 
 export const router = createBrowserRouter([
 	{
@@ -37,5 +38,9 @@ export const router = createBrowserRouter([
 			{ path: 'login', element: <LoginPage /> },
 			{ path: 'register', element: <RegisterPage /> },
 		],
+	},
+	{
+		path: '/banned',
+		element: <BannedPage />,
 	},
 ]);

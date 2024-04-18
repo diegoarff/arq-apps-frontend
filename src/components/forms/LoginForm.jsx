@@ -23,7 +23,10 @@ const LoginForm = () => {
 			navigate('/', { replace: true });
 		} catch (error) {
 			openSnackbar(error, 'danger');
-			console.error(error);
+			console.error(error.message);
+			if (error.message.includes('banned')) {
+				navigate('/banned');
+			}
 		} finally {
 			setLoading(false);
 		}
